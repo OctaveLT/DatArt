@@ -1,10 +1,6 @@
 <script setup lang="ts">
 
-import { ref, watch, reactive } from 'vue'
-
-type distribution = {
-        [key: string]: number
-}
+import CanvasContainer from './CanvasContainer.vue';
 
 const props = defineProps<{
   colors: string[][],
@@ -14,12 +10,9 @@ const props = defineProps<{
   angle: number
 }>()
 
-const roseCanvas = ref()
-const colors = reactive(props.colors)
+const drawRose = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
-const drawRose = (colors: string[][]) => {
-
-    const context: CanvasRenderingContext2D = roseCanvas.value && roseCanvas.value.getContext('2d')
+    const context = canvasRef && canvasRef.getContext('2d') as CanvasRenderingContext2D
 
     context.clearRect(0, 0, props.width, props.height)
  
@@ -38,7 +31,6 @@ const drawRose = (colors: string[][]) => {
 
     const circleXCenter: number = props.width / 2
     const circleYCenter: number = props.height / 2 
-    console.log(props.angle)
 
     const radRatio: number = 2 * Math.PI / props.height
     let angle1: number
@@ -62,27 +54,18 @@ const drawRose = (colors: string[][]) => {
     }
 }
 
-watch(colors, (_, second) => {
-    if (colors.length > 0) drawRose(second)
-})
-
 </script>
 
 <template>
-    <canvas 
-        ref="roseCanvas" 
+    <CanvasContainer
+        :colors="colors"
         :width="width" 
         :height="height"
-        :style="{
-            'background-color': `rgb(${backgroundColor.toString()})`,
-        }"
-    ></canvas>
+        :backgroundColor="backgroundColor"
+        :drawing="drawRose"
+    />
 </template>
 
 <style>
-canvas {
-    border: 1px solid whitesmoke;
-    margin: 1em;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.135);
-}
+
 </style>

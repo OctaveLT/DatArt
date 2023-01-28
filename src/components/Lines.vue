@@ -2,6 +2,7 @@
 
 import { ref, watch, reactive } from 'vue'
 import { sortColors } from '../utils'
+import CanvasContainer from './CanvasContainer.vue';
 
 type distribution = {
         [key: string]: number
@@ -17,15 +18,14 @@ const props = defineProps<{
   angle: number
 }>()
 
-const linesCanvas = ref()
 const colors = reactive(props.colors)
 
-console.log('dd',sortColors([["1", "2", "3"], ["1", "2", "3"], ["12", "2", "3"],["1", "22", "3"]], [1., 1., 1.]))
+//console.log('dd',sortColors([["1", "2", "3"], ["1", "2", "3"], ["12", "2", "3"],["1", "22", "3"]], [1., 1., 1.]))
 //console.log(colors)
 
-const drawLines = (colors: string[][]) => {
+const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
-    const context: CanvasRenderingContext2D = linesCanvas.value && linesCanvas.value.getContext('2d')
+    const context = canvasRef && canvasRef.getContext('2d') as CanvasRenderingContext2D
 
     context.clearRect(0, 0, props.width, props.height)
  
@@ -34,9 +34,6 @@ const drawLines = (colors: string[][]) => {
 
     const circleXCenter: number = props.width / 2
     const circleYCenter: number = props.height / 2 
-    const approxDiagonalLength = props.width + props.height
-
-    //const theta = Math.PI / 6
 
     const degToRad = Math.PI / 180 
 
@@ -54,8 +51,6 @@ const drawLines = (colors: string[][]) => {
     const resultsDistribution: distribution = {}
 
     let sortedColorsResult
-
-    //console.log(colors.length)
 
     if (props.isColorsSorted && colors.length > 1) {
 /*         for (let color of colors) {
@@ -106,7 +101,7 @@ const drawLines = (colors: string[][]) => {
 
         x1 = 0 - circleXCenter
         y1 = (k - 0.5) * step - circleYCenter
-        x2 = approxDiagonalLength - circleXCenter
+        x2 = props.width - circleXCenter
         y2 = (k - 0.5) * step - circleYCenter
 
         x1Rot = rotateX(x1, y1)
@@ -118,37 +113,21 @@ const drawLines = (colors: string[][]) => {
         context.moveTo(x1Rot + circleXCenter, y1Rot + circleYCenter)
         context.lineTo(x2Rot + circleXCenter, y2Rot + circleYCenter)
         context.stroke()
-
-/*         context.beginPath()
-        context.moveTo(rotateX(x1, y1), rotateY(x1, y1))
-        context.lineTo(rotateX(x2, y2), rotateY(x2, y2))
-        context.stroke() */
     }
 }
-
-watch(colors, (_, second) => {
-    if (colors.length > 0) drawLines(second)
-})
 
 </script>
 
 <template>
-    <canvas 
-        ref="linesCanvas" 
+    <CanvasContainer
+        :colors="colors"
         :width="width" 
         :height="height"
-        :style="{
-            'background-color': `rgb(${backgroundColor.toString()})`,
-/*             'height': `${height}px`,
-            'width': `${width}px`, */
-        }"
-    ></canvas>
+        :backgroundColor="backgroundColor"
+        :drawing="drawLines"
+    />
 </template>
 
 <style>
-canvas {
-    border: 1px solid whitesmoke;
-    margin: 1em;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.135);
-}
+
 </style>
