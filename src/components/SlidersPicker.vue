@@ -1,10 +1,12 @@
 <script setup lang="ts">
 
 type Params = {
-        [key: string]: {
-            [key: string] : number
-        }
-}
+                id : number,
+                label: string,
+                min: number,
+                max: number,
+                value: number
+            }[]
 
 const props = defineProps<{
     name: string,
@@ -24,9 +26,9 @@ const handleInput = (index: number, e: Event, ) => {
 <template>
     <div class="picker">
         <div class="title">{{ name }}</div>
-        <template v-for="param in params">
+        <div class="inputsContainer" v-for="param in params">
             <div class="inputContainer">
-                <div>
+                <div class="label">
                     {{ param.label }}
                 </div>
                 <input
@@ -37,7 +39,7 @@ const handleInput = (index: number, e: Event, ) => {
                     :value="param.value"
                 />
             </div>
-        </template>
+        </div>
     </div>
 </template>
 
@@ -45,11 +47,20 @@ const handleInput = (index: number, e: Event, ) => {
 div {
     display: flex;
     flex-direction: column;
+    justify-content: baseline;
 }
 
 div > .title {
-    flex: 1;
     text-align: center;
+    font-weight: bold;
+}
+
+.inputsContainer {
+    flex: 1;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .inputContainer {
@@ -64,6 +75,11 @@ div > .title {
 .inputContainer > input {
     flex-basis: 80%;
     width: 100%;
+}
+
+.inputContainer > .label {
+    margin-right: 0.5em;
+    vertical-align: middle;
 }
 
 </style>
