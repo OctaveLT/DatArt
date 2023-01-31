@@ -39,7 +39,6 @@ const onVideoPicked = () => {
         accept="video/*"
         @change="onVideoPicked"
     />
-
         <video 
             id="video" 
             ref="video"
@@ -51,9 +50,6 @@ const onVideoPicked = () => {
             controls
             muted>
         </video>
-
-
-
         <button
             class="noVideo"
             v-show="!videoSource"
