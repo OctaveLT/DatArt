@@ -13,7 +13,7 @@ const props = defineProps<{
 
 const canvas = ref()
 
-watch(() => props.colors, (_, second) => {
+watch(props.colors, (_, second) => {
     if (props.colors.length > 0) props.drawing(second, canvas.value)
 })
 
