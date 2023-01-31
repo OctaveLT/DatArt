@@ -77,7 +77,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
                 else colorDistribution[color2string([r, g, b])] = 1
             }
         }
-        console.log(colorDistribution)
 
         let colorKeys = Object.keys(colorDistribution)
         let maxColor = [colorKeys[0], colorDistribution[colorKeys[0]]]

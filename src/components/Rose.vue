@@ -63,6 +63,7 @@ const drawRose = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         :height="height"
         :backgroundColor="backgroundColor"
         :drawing="drawRose"
+        :updateParameters="[angle]"
     />
 </template>
 
