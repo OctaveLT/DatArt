@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
+import IconTrash from './icons/IconTrash.vue';
 
 const props = defineProps<{
     height: number,
@@ -10,9 +11,14 @@ const props = defineProps<{
 const videoSource = ref<string>('')
 const fileInput = ref<HTMLInputElement>()
 const video = ref<HTMLVideoElement>()
+const height = ref<number>(props.height)
 
 const onPickVideo = () => {
     fileInput.value?.click()
+}
+
+const deleteVideo = () => {
+    videoSource.value = ''
 }
 
 const onVideoPicked = () => {
@@ -25,7 +31,7 @@ const onVideoPicked = () => {
             alert("Select a file to upload")
         }
     } else {
-        console.log('No found "files" property');
+        console.log('No found "files" property')
     }
 }  
 
@@ -39,24 +45,27 @@ const onVideoPicked = () => {
         accept="video/*"
         @change="onVideoPicked"
     />
+    <div v-show="videoSource" class="videoContainer">
         <video 
             id="video" 
             ref="video"
             :width="height" 
             :height="height"
-            v-show="videoSource" 
             :src="videoSource" 
             autoplay
             controls
-            muted>
-        </video>
-        <button
-            class="noVideo"
-            v-show="!videoSource"
-            @click="onPickVideo"
+            muted
         >
-            Upload a video to extract its color! (Preferably low quality)
-        </button>
+        </video>
+        <IconTrash class="iconTrash" :size="20" @click="deleteVideo"/>
+    </div>
+    <button
+        class="noVideo"
+        v-show="!videoSource"
+        @click="onPickVideo"
+    >
+        Upload a video to extract its color! (Preferably low quality)
+    </button>
 </template>
 
 <style>
@@ -66,6 +75,12 @@ video {
     border-radius: 1em;
     background-color: rgb(220, 217, 217);
     margin: 1em;
+    cursor: pointer;
+}
+
+.videoContainer:hover > .iconTrash {
+    visibility: visible;
+    cursor: pointer;
 }
 
 .noVideo {
@@ -83,6 +98,18 @@ video {
 
 #inputVideo {
     display: none;
+}
+
+.iconTrash {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: transform .2s;
+}
+
+.iconTrash:hover {
+    transform: scale(1.2);
 }
 
 </style>
