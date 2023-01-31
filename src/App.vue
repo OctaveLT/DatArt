@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Uploader from './components/Uploader.vue'
+import Main from './components/Main.vue'
 </script>
 
 <template>
   <main>
-    <Uploader />
+    <Main />
   </main>
 </template>
 

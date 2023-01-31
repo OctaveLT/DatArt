@@ -7,6 +7,7 @@ import Lines from './Lines.vue'
 import Rose from './Rose.vue'
 import SlidersPicker from './SlidersPicker.vue'
 import { ref } from 'vue'
+import VideoUploader from './VideoUploader.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -23,39 +24,18 @@ type PickerParams = {
 const MAX_COUNT = 1000
 const CANVAS_HEIGHT = 280
 
-const videoSource = ref<string>('')
-//const fileInput = ref(document.getElementById("inputVideo"))
-const fileInput = ref<HTMLInputElement>()
 const video = ref<HTMLVideoElement>()
 const colorResultsArray = ref<string[][]>([])
 
-const onPickVideo = () => {
-    fileInput.value?.click()
-}
-
-const onVideoPicked = () => {
-    console.log('Trying to upload the video file: %O', fileInput.value)
-    if (fileInput.value && 'files' in fileInput.value) {
-        if (fileInput.value.files && fileInput.value.files.length > 0) {
-            videoSource.value = URL.createObjectURL(fileInput.value.files[0])
-            video.value?.addEventListener('loadeddata', videoProcessing)
-        } else {
-            alert("Select a file to upload")
-        }
-    } else {
-        console.log('No found "files" property');
-    }
-}  
-
-const videoProcessing = () => {
+const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     let numberFrameProcessed: number = 0
     colorResultsArray.value.splice(0, colorResultsArray.value.length)
-    const currentVideoSource = videoSource.value
+    const currentVideoSource = videoSource
 
-    const vHeight: number = video.value?.videoHeight || 1
-    const vWidth: number = video.value?.videoWidth || 1
+    const vHeight: number = video?.videoHeight || 1
+    const vWidth: number = video?.videoWidth || 1
 
-    const outputCanvas = document.getElementById('output-canvas') as HTMLCanvasElement
+    const outputCanvas = document.getElementById('outputCanvas') as HTMLCanvasElement
     const contextOutputCanvas: CanvasRenderingContext2D = outputCanvas.getContext('2d')!
     const tmpCanvas = document.createElement('canvas') as HTMLCanvasElement
     const contextTmpCanvas: CanvasRenderingContext2D = tmpCanvas.getContext('2d')!
@@ -73,7 +53,7 @@ const videoProcessing = () => {
     console.log(' --- Process video ---')
 
     function computeFrame() {
-        if (video.value?.paused || video.value?.ended) {
+        if (video?.paused || video?.ended) {
             return
         }
         let hTot: number = 0
@@ -81,7 +61,7 @@ const videoProcessing = () => {
         let sTot: number = 0
         let colorDistribution: ColorDistribution = {}
 
-        video.value && contextTmpCanvas.drawImage(video.value, 0, 0, vWidth, vHeight)
+        video && contextTmpCanvas.drawImage(video, 0, 0, vWidth, vHeight)
         let frame = contextTmpCanvas.getImageData(0, 0, vWidth, vHeight)
         contextOutputCanvas.putImageData(frame, 0, 0)
         for (let i = 0; i < frame.data.length / 4; i++) {
@@ -110,10 +90,10 @@ const videoProcessing = () => {
         let result = string2color(maxColor[0])
         colorResultsArray.value.push(result)
 
-        if (numberFrameProcessed < MAX_COUNT && currentVideoSource === videoSource.value) setTimeout(computeFrame, 0)
+        if (numberFrameProcessed < MAX_COUNT && currentVideoSource === videoSource) setTimeout(computeFrame, 0)
     }
 
-    video.value?.addEventListener('play', computeFrame )
+    video?.addEventListener('play', computeFrame )
 }
 
 const rgbColor = ref([255, 255, 255])
@@ -204,39 +184,12 @@ const anglePickerParams: PickerParams = [
                 :params="anglePickerParams"
             />
         </div>
-        <input
-            id="inputVideo"
-            type="file"
-            ref="fileInput"
-            accept="video/*"
-            @change="onVideoPicked"
-        />
-        <div
-            style="
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            "
-        >
-            <video 
-                id="video" 
-                ref="video"
-                v-show="videoSource" 
-                width="320" 
-                :height="CANVAS_HEIGHT" 
-                :src="videoSource" 
-                autoplay
-                controls
-                muted>
-            </video>
-            <button
-                class="noVideo"
-                v-show="!videoSource"
-                @click="onPickVideo"
-            >
-                Upload a video to extract its color! (Preferably low quality)
-            </button>
-            <canvas id="output-canvas" ></canvas>
+        <div class="videoProcess">
+            <VideoUploader
+                :height="CANVAS_HEIGHT"
+                :video-processing="videoProcessing"
+            />     
+            <canvas id="outputCanvas" ></canvas>    
             <IconRightArrow id="iconRightArrow"/>
             <Circle 
                 :colors="colorResultsArray"
@@ -261,7 +214,7 @@ const anglePickerParams: PickerParams = [
                 :height="CANVAS_HEIGHT"
                 :width="CANVAS_HEIGHT"
                 :angle="angleRose[0]"
-            />
+            />  
         </div>
     </div>
 </template>
@@ -271,53 +224,12 @@ const anglePickerParams: PickerParams = [
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    flex-grow: 1;
+    align-items: center;
     margin: 1em;
     text-align: center;
 }
 
-button {
-    color: rgb(114, 119, 107);
-    margin: 0.1em;
-}
-
-#inputVideo {
-    background-color: rgb(211, 214, 213);
-    display: none;
-}
-
-.previewBlock {
-        display: block;
-        cursor: pointer;
-        width: 300px;
-        height: 281px;        
-        margin: 0 auto 20px;
-        background-position: center center;
-        background-size: cover;
-    }
-
-video {
-    border: 1px solid grey;
-    border-radius: 1em;
-    margin: 1em;
-    background-color: rgb(220, 217, 217);
-}
-
-.noVideo {
-    margin: 1em;
-    align-self: stretch;
-    background-color: white;
-    border: 1px dashed grey;
-    border-radius: 1em;
-    font-weight: bold;
-}
-
-.noVideo:hover {
-    background-color: whitesmoke;
-}
-
-#output-canvas {
+#outputCanvas {
     display: none;
 }
 
@@ -332,6 +244,9 @@ video {
     padding: 0.1em;
     border: 3px solid rgba(83, 83, 83, 0.186);
     border-radius: 0.5em;
+    margin-bottom: 2em;
+    margin-top: 1em;
+    padding: 1em;
 }
 
 .colorPicker {
@@ -342,5 +257,13 @@ video {
     margin: 1em;
     border: 1px solid rgb(155, 136, 136);
 }
+
+.videoProcess {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 
 </style>
