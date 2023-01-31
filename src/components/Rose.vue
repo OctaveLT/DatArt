@@ -5,8 +5,9 @@ import CanvasContainer from './CanvasContainer.vue';
 const props = defineProps<{
   colors: string[][],
   backgroundColor: number[],
-  height: number | 320,
-  width: number | 320,
+  height: number,
+  width: number,
+  outsideRadius: number,
   angle: number
 }>()
 
@@ -48,8 +49,8 @@ const drawRose = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         angle2 = (k - 0.5) * step * radRatio + props.angle * Math.PI / 180
 
         context.beginPath()
-        context.moveTo(circularXCoordinate(circleXCenter, circleXCenter, angle1), circularYCoordinate(circleYCenter, circleYCenter, angle1))
-        context.lineTo(circularXCoordinate(circleXCenter, circleXCenter, angle2), circularYCoordinate(circleYCenter, circleYCenter, angle2))
+        context.moveTo(circularXCoordinate(circleXCenter, props.outsideRadius, angle1), circularYCoordinate(circleYCenter, props.outsideRadius, angle1))
+        context.lineTo(circularXCoordinate(circleXCenter, props.outsideRadius, angle2), circularYCoordinate(circleYCenter, props.outsideRadius, angle2))
         context.stroke()
     }
 }
@@ -63,6 +64,7 @@ const drawRose = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         :height="height"
         :backgroundColor="backgroundColor"
         :drawing="drawRose"
+        :updateParameters="[angle, outsideRadius]"
     />
 </template>
 

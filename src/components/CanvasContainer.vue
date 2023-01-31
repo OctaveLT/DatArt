@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, watch, reactive } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps<{
     drawing: (colors: string[][], canvasRef: HTMLCanvasElement) => void,
@@ -8,14 +8,17 @@ const props = defineProps<{
     backgroundColor: number[],
     height: number,
     width: number,
-
+    updateParameters: number[]
 }>()
 
 const canvas = ref()
-const colors = reactive(props.colors)
 
-watch(colors, (_, second) => {
-    if (colors.length > 0) props.drawing(second, canvas.value)
+watch(props.colors, (_, second) => {
+    if (props.colors.length > 0) props.drawing(second, canvas.value)
+})
+
+watch(() => props.updateParameters, () => {
+    if (props.colors.length > 0) props.drawing(props.colors, canvas.value)
 })
 
 const downloadAsImg = () => {

@@ -23,8 +23,13 @@ type PickerParams = {
 
 const MAX_COUNT = 1000
 const CANVAS_HEIGHT = 280
+const DEFAULT_RGB_COLOR = [255, 255, 255]
+const DEFAULT_OUT_RADIUS = CANVAS_HEIGHT * 0.45
+const DEFAULT_IN_RADIUS = CANVAS_HEIGHT * 0.25
+const DEFAULT_ANGLE_ROSE = 20
+const DEFAULT_ANGLE = 0
+const DEFAULT_IS_SORTED = false
 
-const video = ref<HTMLVideoElement>()
 const colorResultsArray = ref<string[][]>([])
 
 const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
@@ -77,7 +82,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
                 else colorDistribution[color2string([r, g, b])] = 1
             }
         }
-        console.log(colorDistribution)
 
         let colorKeys = Object.keys(colorDistribution)
         let maxColor = [colorKeys[0], colorDistribution[colorKeys[0]]]
@@ -96,11 +100,11 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     video?.addEventListener('play', computeFrame )
 }
 
-const rgbColor = ref([255, 255, 255])
-const radius = ref([CANVAS_HEIGHT / 2, CANVAS_HEIGHT / 4])
-const angleRose = ref([20])
-const angleLines = ref([0])
-const isSorted = ref(false)
+const rgbColor = ref(DEFAULT_RGB_COLOR)
+const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
+const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
+const angleLines = ref([DEFAULT_ANGLE])
+const isSorted = ref(DEFAULT_IS_SORTED)
       
 const colorPickerParams: PickerParams = [
                     {
@@ -108,21 +112,21 @@ const colorPickerParams: PickerParams = [
                         label: 'R',
                         min: 0,
                         max: 255,
-                        value: 255,
+                        value: DEFAULT_RGB_COLOR[0],
                     },
                     {
                         id: 1,
                         label: 'G',
                         min: 0,
                         max: 255,
-                        value: 255,
+                        value: DEFAULT_RGB_COLOR[1],
                     },
                     {
                         id: 2,
                         label: 'B',
                         min: 0,
                         max: 255,
-                        value: 255,
+                        value: DEFAULT_RGB_COLOR[2],
                     },
                 ]
 
@@ -132,14 +136,14 @@ const radiusPickerParams: PickerParams = [
                         label: 'Out',
                         min: 0,
                         max: CANVAS_HEIGHT / 2,
-                        value: CANVAS_HEIGHT / 2,
+                        value: DEFAULT_OUT_RADIUS,
                     },
                     {
                         id: 1,
                         label: 'In',
                         min: 1,
                         max: CANVAS_HEIGHT / 2,
-                        value: CANVAS_HEIGHT / 4,
+                        value: DEFAULT_IN_RADIUS,
                     }
                 ]
 
@@ -149,7 +153,25 @@ const anglePickerParams: PickerParams = [
                         label: 'Angle',
                         min: 0,
                         max: 360,
-                        value: 0,
+                        value: DEFAULT_ANGLE,
+                    }
+                ]
+
+const angleRadiusPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: 'Angle',
+                        min: 0,
+                        max: 360,
+                        value: DEFAULT_ANGLE_ROSE,
+                    }
+                    ,
+                    {
+                        id: 1,
+                        label: 'Radius',
+                        min: 1,
+                        max: CANVAS_HEIGHT / 2,
+                        value: DEFAULT_OUT_RADIUS,
                     }
                 ]
 
@@ -181,7 +203,7 @@ const anglePickerParams: PickerParams = [
             <SlidersPicker 
                 v-model="angleRose"
                 name="Rose angle"
-                :params="anglePickerParams"
+                :params="angleRadiusPickerParams"
             />
         </div>
         <div class="videoProcess">
@@ -214,6 +236,7 @@ const anglePickerParams: PickerParams = [
                 :height="CANVAS_HEIGHT"
                 :width="CANVAS_HEIGHT"
                 :angle="angleRose[0]"
+                :outsideRadius="angleRose[1]"
             />  
         </div>
     </div>

@@ -20,9 +20,6 @@ const props = defineProps<{
 
 const colors = reactive(props.colors)
 
-//console.log('dd',sortColors([["1", "2", "3"], ["1", "2", "3"], ["12", "2", "3"],["1", "22", "3"]], [1., 1., 1.]))
-//console.log(colors)
-
 const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
     const context = canvasRef && canvasRef.getContext('2d') as CanvasRenderingContext2D
@@ -39,7 +36,6 @@ const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
     // angle in rad
     const rotateX = (x: number, y: number) => {
-        console.log(Math.sin(props.angle * degToRad))
         return x * Math.cos(props.angle * degToRad) - y * Math.sin(props.angle * degToRad) 
     }
 
@@ -125,6 +121,7 @@ const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         :height="height"
         :backgroundColor="backgroundColor"
         :drawing="drawLines"
+        :updateParameters="[angle]"
     />
 </template>
 

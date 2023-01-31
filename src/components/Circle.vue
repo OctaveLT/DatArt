@@ -12,7 +12,7 @@ const props = defineProps<{
   insideRadius: number,
 }>()
 
-const circleCanvas = ref()
+console.log(props.outsideRadius, props.insideRadius)
 
 // theta in rad
 const circularXCoordinate = (x0: number, r: number, theta: number) => {
@@ -60,6 +60,7 @@ const drawCircle = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         :height="height"
         :backgroundColor="backgroundColor"
         :drawing="drawCircle"
+        :updateParameters="[outsideRadius, insideRadius]"
     />
 </template>
 
