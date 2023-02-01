@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
-import IconFileVideo from '../icons/IconFileVideo.vue';
 
 const props = defineProps<{
     height: number,
