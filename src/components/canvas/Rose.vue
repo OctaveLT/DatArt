@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import IconLines from '../icons/IconLines.vue';
 import CanvasContainer from './CanvasContainer.vue';
 
 const props = defineProps<{
@@ -65,7 +66,11 @@ const drawRose = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         :backgroundColor="backgroundColor"
         :drawing="drawRose"
         :updateParameters="[angle, outsideRadius]"
-    />
+    >
+        <template #icon>
+            <IconLines/>
+        </template>
+    </CanvasContainer>
 </template>
 
 <style>
