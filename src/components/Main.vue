@@ -2,12 +2,12 @@
 
 import { rgb2hsl , hsl2rgb, color2string, string2color } from '../utils.js'
 import IconRightArrow from './icons/IconRightArrow.vue'
-import Circle from './Circle.vue'
-import Lines from './Lines.vue'
-import Rose from './Rose.vue'
-import SlidersPicker from './SlidersPicker.vue'
+import Circle from './canvas/Circle.vue'
+import Lines from './canvas/Lines.vue'
+import Rose from './canvas/Rose.vue'
+import SlidersPicker from './elements/SlidersPicker.vue'
 import { ref } from 'vue'
-import VideoUploader from './VideoUploader.vue'
+import VideoUploader from './elements/VideoUploader.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -181,6 +181,7 @@ const angleRadiusPickerParams: PickerParams = [
     <div
         class="container"
     >
+    <button>ddd</button>
         <div class="settings">
             <SlidersPicker 
                 v-model="rgbColor"

@@ -3,3 +3,26 @@
 #app {
   font-weight: normal;
 }
+
+button {
+  background-color: #cc998dc0;
+  padding: 0.5em;
+  border-radius: 0.7em;
+  border: 0;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
+  color: #2A0513;
+  outline: none;
+  transition: transform .2s;
+}
+
+button:hover {
+  background-color: #cc998d;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+button:active {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0);
+  border: 0;
+  transform: translateY(1px);
+}
