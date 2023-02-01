@@ -18,7 +18,6 @@ const props = defineProps<{
   angle: number
 }>()
 
-const colors = reactive(props.colors)
 
 const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
@@ -72,7 +71,7 @@ const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
     let x2Rot: number
     let y2Rot: number
     let k: number = 0
-    for (let color of colors) {
+    for (let color of props.colors) {
 
         k += 1 //props.isColorsSorted ? 1 : 1 
 

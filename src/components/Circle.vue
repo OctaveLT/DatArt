@@ -12,8 +12,6 @@ const props = defineProps<{
   insideRadius: number,
 }>()
 
-console.log(props.outsideRadius, props.insideRadius)
-
 // theta in rad
 const circularXCoordinate = (x0: number, r: number, theta: number) => {
     return x0 + r * Math.cos(theta)
@@ -37,7 +35,7 @@ const drawCircle = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
     //let color: string[]
     let k: number = 0
-    for (let color of colors) {
+    for (let color of props.colors) {
 
         context.strokeStyle = `rgb(${color.toString()})`
         context.lineWidth = step

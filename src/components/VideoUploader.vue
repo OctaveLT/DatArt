@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
-import IconTrash from './icons/IconTrash.vue';
+import IconFileVideo from './icons/IconFileVideo.vue';
 
 const props = defineProps<{
     height: number,
-    videoProcessing: (video: HTMLVideoElement, videoSource: string) => void
+    videoProcessing: (video: HTMLVideoElement, videoSource: string) => void,
 }>()
 
 const videoSource = ref<string>('')
@@ -17,8 +17,13 @@ const onPickVideo = () => {
     fileInput.value?.click()
 }
 
-const deleteVideo = () => {
-    videoSource.value = ''
+const chooseNewVideo = () => {
+    video.value?.pause()
+    onPickVideo()
+}
+
+const restartVideo = () => {
+    video.value?.load()
 }
 
 const onVideoPicked = () => {
@@ -57,7 +62,14 @@ const onVideoPicked = () => {
             muted
         >
         </video>
-        <IconTrash class="iconTrash" :size="20" @click="deleteVideo"/>
+        <div class="pickNewVideo" >
+            <button @click="chooseNewVideo">
+                New video
+            </button>
+            <button @click="restartVideo">
+                Restart
+            </button>
+        </div>
     </div>
     <button
         class="noVideo"
@@ -78,7 +90,7 @@ video {
     cursor: pointer;
 }
 
-.videoContainer:hover > .iconTrash {
+.videoContainer:hover > .pickNewVideo {
     visibility: visible;
     cursor: pointer;
 }
@@ -100,16 +112,17 @@ video {
     display: none;
 }
 
-.iconTrash {
+.pickNewVideo {
     visibility: hidden;
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: -1.3em;
     transition: transform .2s;
+    align-self: center;
+    display: inline;
 }
 
-.iconTrash:hover {
-    transform: scale(1.2);
+.pickNewVideo:hover {
+    transform: scale(1.1);
 }
 
 </style>

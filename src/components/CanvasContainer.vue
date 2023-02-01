@@ -15,6 +15,10 @@ const canvas = ref()
 
 watch(props.colors, (_, second) => {
     if (props.colors.length > 0) props.drawing(second, canvas.value)
+    else {
+        const context = canvas.value && canvas.value.getContext('2d') as CanvasRenderingContext2D
+        context.clearRect(0, 0, props.width, props.height)
+    }
 })
 
 watch(() => props.updateParameters, () => {
