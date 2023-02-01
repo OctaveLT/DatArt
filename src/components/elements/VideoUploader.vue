@@ -71,11 +71,13 @@ const onVideoPicked = () => {
         </div>
     </div>
     <button
-        class="noVideo"
+        class="main noVideo"
         v-show="!videoSource"
         @click="onPickVideo"
     >
-        Upload a video to extract its color! (Preferably low quality)
+        <h1>Upload a video to extract its color! </h1>
+        <br/>     
+        <p>(Preferably low quality)</p>   
     </button>
 </template>
 
@@ -100,6 +102,7 @@ video {
     background-color: white;
     border: 1px dashed grey;
     border-radius: 1em;
+    font-size: large;
     font-weight: bold;
 }
 

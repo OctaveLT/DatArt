@@ -27,3 +27,12 @@ button:active {
   border: 0;
   transform: translateY(1px);
 }
+
+button.main {
+  background-color: #1c68bfe8;
+  color: #ECEBE4;
+}
+
+button.main:hover {
+  background-color: #1C68BF;
+}
