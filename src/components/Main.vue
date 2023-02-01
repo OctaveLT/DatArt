@@ -26,8 +26,9 @@ const CANVAS_HEIGHT = 280
 const DEFAULT_RGB_COLOR = [255, 255, 255]
 const DEFAULT_OUT_RADIUS = CANVAS_HEIGHT * 0.45
 const DEFAULT_IN_RADIUS = CANVAS_HEIGHT * 0.25
-const DEFAULT_ANGLE_ROSE = 20
+const DEFAULT_ANGLE_ROSE = 120
 const DEFAULT_ANGLE = 0
+const DEFAULT_COLOR_THRESHOLD = 25
 const DEFAULT_IS_SORTED = false
 
 const colorResultsArray = ref<string[][]>([])
@@ -88,7 +89,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
 
         numberFrameProcessed++
 
-        let relativeIndex: number = Math.floor(colorThreshold.value * 0.01 * (sortedColors.length - 1))
+        let relativeIndex: number = Math.floor(colorThreshold.value[0] * 0.01 * (sortedColors.length - 1))
         let result: string[] = string2color(sortedColors[relativeIndex])
         colorResultsArray.value.push(result)
 
@@ -103,7 +104,7 @@ const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
 const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
 const angleLines = ref([DEFAULT_ANGLE])
 const isSorted = ref(DEFAULT_IS_SORTED)
-const colorThreshold = ref(1)
+const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
       
 const colorPickerParams: PickerParams = [
                     {
@@ -174,14 +175,29 @@ const angleRadiusPickerParams: PickerParams = [
                     }
                 ]
 
+const colorThresholdPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: '-/+',
+                        min: 0,
+                        max: 100,
+                        value: DEFAULT_COLOR_THRESHOLD,
+                    }
+                ]
+
+
 </script>
 
 <template>
     <div
         class="container"
     >
-    <button>ddd</button>
         <div class="settings">
+            <SlidersPicker 
+                v-model="colorThreshold"
+                name="Color threshold"
+                :params="colorThresholdPickerParams"
+            />
             <SlidersPicker 
                 v-model="rgbColor"
                 name="Background color"
@@ -205,9 +221,6 @@ const angleRadiusPickerParams: PickerParams = [
                 name="Rose angle"
                 :params="angleRadiusPickerParams"
             />
-            <input type="range" v-model="colorThreshold"/>
-            {{ colorThreshold }}
-            <input type="checkbox"/>
         </div>
         <div class="videoProcess">
             <VideoUploader
