@@ -2,6 +2,8 @@
 
 #app {
   font-weight: normal;
+  background-image: url(./background4.svg); /* SVG background credits: https://www.svgbackgrounds.com */
+  background-position: center;
 }
 
 button {

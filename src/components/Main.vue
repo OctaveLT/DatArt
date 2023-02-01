@@ -198,12 +198,13 @@ const colorThresholdPickerParams: PickerParams = [
                 name="Color threshold"
                 :params="colorThresholdPickerParams"
             />
+            <div class="separationBorder"></div>
             <SlidersPicker 
                 v-model="rgbColor"
                 name="Background color"
                 :params="colorPickerParams"
             />
-            <div class="separationBorder"></div>
+            <div class="separationBorder main"></div>
             <SlidersPicker 
                 v-model="radius"
                 name="Radius"
@@ -281,19 +282,24 @@ const colorThresholdPickerParams: PickerParams = [
     flex-direction: row;
     justify-content: center;
     padding: 0.1em;
-    border: 3px solid rgba(83, 83, 83, 0.186);
+    border: 1px solid rgba(83, 83, 83, 0.186);
     border-radius: 0.5em;
     margin-bottom: 2em;
     margin-top: 1em;
     padding: 1em;
-}
-
-.colorPicker {
-    margin: 0.1em;
+    background-color: rgba(236, 235, 228, 0.6);
 }
 
 .separationBorder {
     margin: 1em;
+    border: 1px dashed rgb(155, 136, 136);
+}
+
+.separationBorder.main {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
     border: 1px solid rgb(155, 136, 136);
 }
 
