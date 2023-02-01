@@ -57,7 +57,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
 
     console.log(' --- Process video ---')
 
-    function computeFrame() {
+    const computeFrame = () => {
         if (video?.paused || video?.ended) {
             return
         }
@@ -84,14 +84,12 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
         }
 
         let colorKeys = Object.keys(colorDistribution)
-        let maxColor = [colorKeys[0], colorDistribution[colorKeys[0]]]
-        for (let i = 0; i < colorKeys.length; i++) {
-            if (colorDistribution[colorKeys[i]] > maxColor[1]) maxColor = [colorKeys[i], colorDistribution[colorKeys[i]]]
-        }
+        let sortedColors: string[] = colorKeys.sort((color1, color2) => colorDistribution[color1] < colorDistribution[color2] ? 1 : -1)
 
         numberFrameProcessed++
 
-        let result = string2color(maxColor[0])
+        let relativeIndex: number = Math.floor(colorThreshold.value * 0.01 * (sortedColors.length - 1))
+        let result: string[] = string2color(sortedColors[relativeIndex])
         colorResultsArray.value.push(result)
 
         if (numberFrameProcessed < MAX_COUNT && currentVideoSource === videoSource) setTimeout(computeFrame, 0)
@@ -105,6 +103,7 @@ const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
 const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
 const angleLines = ref([DEFAULT_ANGLE])
 const isSorted = ref(DEFAULT_IS_SORTED)
+const colorThreshold = ref(1)
       
 const colorPickerParams: PickerParams = [
                     {
@@ -205,6 +204,9 @@ const angleRadiusPickerParams: PickerParams = [
                 name="Rose angle"
                 :params="angleRadiusPickerParams"
             />
+            <input type="range" v-model="colorThreshold"/>
+            {{ colorThreshold }}
+            <input type="checkbox"/>
         </div>
         <div class="videoProcess">
             <VideoUploader
