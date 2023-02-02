@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
+import IconArrowRepeat from '../icons/IconArrowRepeat.vue';
 
 const props = defineProps<{
     height: number,
@@ -65,8 +66,8 @@ const onVideoPicked = () => {
             <button @click="chooseNewVideo">
                 New video
             </button>
-            <button @click="restartVideo">
-                Restart
+            <button @click="restartVideo" class="restart">
+                <IconArrowRepeat class="iconArrowRepeat"/>
             </button>
         </div>
     </div>
@@ -86,7 +87,7 @@ const onVideoPicked = () => {
 video {
     border: 1px solid grey;
     border-radius: 1em;
-    background-color: rgb(220, 217, 217);
+    background-color: rgba(220, 217, 217, 0.3);
     margin: 1em;
     cursor: pointer;
 }
@@ -117,7 +118,7 @@ video {
 .pickNewVideo {
     visibility: hidden;
     position: absolute;
-    bottom: -1.3em;
+    bottom: -2em;
     transition: transform .2s;
     align-self: center;
     display: inline;
@@ -125,6 +126,20 @@ video {
 
 .pickNewVideo:hover {
     transform: scale(1.1);
+}
+
+.restart {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.restart:hover {
+    background-color: transparent;
+    transform: scale(1.1);
+}
+
+.restart .iconArrowRepeat {
+    vertical-align: middle;
 }
 
 </style>
