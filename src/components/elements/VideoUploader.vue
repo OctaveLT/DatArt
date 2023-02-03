@@ -92,6 +92,12 @@ video {
     cursor: pointer;
 }
 
+.videoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .videoContainer:hover > .pickNewVideo {
     visibility: visible;
     cursor: pointer;

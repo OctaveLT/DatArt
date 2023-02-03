@@ -50,7 +50,8 @@ const handleInput = (index: number, e: Event, ) => {
 }
 
 .colorPicker > .title > div {
-    font-weight: bold;
+    font-weight: normal;
+    font-size: larger;
 }
 
 .colorPicker > .title > .slot {

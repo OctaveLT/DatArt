@@ -2,8 +2,6 @@
 
 #app {
   font-weight: normal;
-  background-image: url(./background4.svg); /* SVG background credits: https://www.svgbackgrounds.com */
-  background-position: center;
 }
 
 button {
@@ -16,6 +14,7 @@ button {
   outline: none;
   transition: transform .2s;
   margin: 0.1em;
+  font-family:'brown-ll';
 }
 
 button:hover {

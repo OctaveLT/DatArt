@@ -25,7 +25,10 @@ const handleInput = (index: number, e: Event, ) => {
 
 <template>
     <div class="picker">
-        <div class="title">{{ name }}</div>
+        <div class="title">
+            <div>{{ name }}</div>
+            <slot class="slot" name="icon"/>
+        </div>
         <div class="inputsContainer" v-for="param in params">
             <div class="inputContainer">
                 <div class="label">
@@ -44,15 +47,26 @@ const handleInput = (index: number, e: Event, ) => {
 </template>
 
 <style>
-div {
+.picker {
     display: flex;
     flex-direction: column;
     justify-content: baseline;
 }
 
-div > .title {
-    text-align: center;
-    font-weight: bold;
+.picker > .title {
+    display: flex;
+    justify-content: center;
+}
+
+.picker > .title > div {
+    font-weight: normal;
+    font-size: larger;
+}
+
+.picker > .title > .slot {
+    flex-grow: 1;
+    vertical-align: middle;
+    vertical-align: baseline;
 }
 
 .inputsContainer {
