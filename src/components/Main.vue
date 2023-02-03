@@ -296,7 +296,7 @@ const colorThresholdPickerParams: PickerParams = [
 }
 
 #iconRightArrow {
-    color: green;
+    color: #CC998D;
 }
 
 .settings {

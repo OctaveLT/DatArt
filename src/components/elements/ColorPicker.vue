@@ -57,7 +57,6 @@ const handleInput = (index: number, e: Event, ) => {
 .colorPicker > .title > .slot {
     flex-grow: 1;
     vertical-align: middle;
-    vertical-align: baseline;
 }
 
 .colorPicker > .inputContainer {

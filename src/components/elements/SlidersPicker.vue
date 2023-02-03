@@ -24,9 +24,9 @@ const handleInput = (index: number, e: Event, ) => {
 </script>
 
 <template>
-    <div class="picker">
+    <div class="sliderPicker">
         <div class="title">
-            <slot class="slot" name="icon"/>
+            <slot class="slot" name="icon"></slot>
         </div>
         <div class="inputsContainer" v-for="param in params">
             <div class="label">
@@ -46,38 +46,38 @@ const handleInput = (index: number, e: Event, ) => {
 </template>
 
 <style>
-.picker {
+.sliderPicker {
     display: flex;
     flex-direction: column;
     justify-content: baseline;
 }
 
-.picker > .title {
+.sliderPicker > .title {
     display: flex;
     justify-content: center;
     margin-bottom: 1em;
 }
 
-.picker > .title > div {
+.sliderPicker > .title > div {
     font-weight: normal;
     font-size: larger;
 }
 
-.picker > .title > .slot {
-    flex-grow: 1;
-    vertical-align: middle;
-    vertical-align: baseline;
-}
-
-.inputsContainer {
+.sliderPicker > .inputsContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.inputContainer > input {
+.sliderPicker > .inputsContainer > .label {
+    font-size: medium;
+}
+
+.sliderPicker > .inputContainer > input {
     outline: none;
 }
+
+
 
 
 </style>

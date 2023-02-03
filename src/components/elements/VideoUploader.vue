@@ -76,7 +76,7 @@ const onVideoPicked = () => {
         v-show="!videoSource"
         @click="onPickVideo"
     >
-        <h1>Upload a video to extract its color! </h1>
+        <h1>Upload a video to extract its colors! </h1>
         <br/>     
         <p>(Preferably low quality)</p>   
     </button>
