@@ -10,6 +10,8 @@ import ColorPicker from './elements/ColorPicker.vue'
 import { ref } from 'vue'
 import VideoUploader from './elements/VideoUploader.vue'
 import IconCircle from './icons/IconCircle.vue'
+import IconLines from './icons/IconLines.vue'
+import IconRose from './icons/IconRose.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -180,7 +182,7 @@ const angleRadiusPickerParams: PickerParams = [
 const colorThresholdPickerParams: PickerParams = [
                     {
                         id: 0,
-                        label: '-/+',
+                        label: 'Color threshold',
                         min: 0,
                         max: 100,
                         value: DEFAULT_COLOR_THRESHOLD,
@@ -200,11 +202,15 @@ const colorThresholdPickerParams: PickerParams = [
                     v-model="colorThreshold"
                     name="Color threshold"
                     :params="colorThresholdPickerParams"
-                />
+                    >
+                <template #icon>
+                   GENERAL
+                </template>
+            </SlidersPicker>
                 <ColorPicker
                     v-model="rgbColor"
                     name="Background"
-                    label="Color"
+                    label="Background"
                     :value="DEFAULT_RGB_COLOR"
                 />                
             </div>
@@ -223,13 +229,21 @@ const colorThresholdPickerParams: PickerParams = [
                 v-model="angleLines"
                 name="Lines"
                 :params="anglePickerParams"
-            />
+            >
+                <template #icon>
+                    <IconLines/>
+                </template>
+            </SlidersPicker>
             <div class="separationBorder"></div>
             <SlidersPicker 
                 v-model="angleRose"
                 name="Rose"
                 :params="angleRadiusPickerParams"
-            />
+            >
+                <template #icon>
+                    <IconRose/>
+                </template>
+            </SlidersPicker>
         </div>
         <div class="videoProcess">
             <VideoUploader
@@ -282,7 +296,7 @@ const colorThresholdPickerParams: PickerParams = [
 }
 
 #iconRightArrow {
-    color: green;
+    color: #CC998D;
 }
 
 .settings {
