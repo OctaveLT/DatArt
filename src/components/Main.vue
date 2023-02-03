@@ -12,6 +12,8 @@ import VideoUploader from './elements/VideoUploader.vue'
 import IconCircle from './icons/IconCircle.vue'
 import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
+import IconInfoCircle from './icons/IconInfoCircle.vue'
+import Modal from './elements/Modal.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -36,6 +38,69 @@ const DEFAULT_COLOR_THRESHOLD = 25
 const DEFAULT_IS_SORTED = false
 
 const colorResultsArray = ref<string[][]>([])
+
+const rgbColor = ref([DEFAULT_RGB_COLOR])
+const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
+const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
+const angleLines = ref([DEFAULT_ANGLE])
+const isSorted = ref(DEFAULT_IS_SORTED)
+const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
+const showInformation = ref<boolean>(true)
+
+const radiusPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: 'Out',
+                        min: 0,
+                        max: CANVAS_HEIGHT / 2,
+                        value: DEFAULT_OUT_RADIUS,
+                    },
+                    {
+                        id: 1,
+                        label: 'In',
+                        min: 1,
+                        max: CANVAS_HEIGHT / 2,
+                        value: DEFAULT_IN_RADIUS,
+                    }
+                ]
+
+const anglePickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: 'Angle',
+                        min: 0,
+                        max: 360,
+                        value: DEFAULT_ANGLE,
+                    }
+                ]
+
+const angleRadiusPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: 'Angle',
+                        min: 0,
+                        max: 360,
+                        value: DEFAULT_ANGLE_ROSE,
+                    }
+                    ,
+                    {
+                        id: 1,
+                        label: 'Radius',
+                        min: 1,
+                        max: CANVAS_HEIGHT / 2,
+                        value: DEFAULT_OUT_RADIUS,
+                    }
+                ]
+
+const colorThresholdPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: 'Color threshold',
+                        min: 0,
+                        max: 100,
+                        value: DEFAULT_COLOR_THRESHOLD,
+                    }
+                ]
 
 const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     let numberFrameProcessed: number = 0
@@ -103,92 +168,9 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     video?.addEventListener('play', computeFrame )
 }
 
-const rgbColor = ref([DEFAULT_RGB_COLOR])
-const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
-const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
-const angleLines = ref([DEFAULT_ANGLE])
-const isSorted = ref(DEFAULT_IS_SORTED)
-const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
-      
-const colorPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'R',
-                        min: 0,
-                        max: 255,
-                        value: hex2rgb(DEFAULT_RGB_COLOR)[0],
-                    },
-                    {
-                        id: 1,
-                        label: 'G',
-                        min: 0,
-                        max: 255,
-                        value: hex2rgb(DEFAULT_RGB_COLOR)[1],
-                    },
-                    {
-                        id: 2,
-                        label: 'B',
-                        min: 0,
-                        max: 255,
-                        value: hex2rgb(DEFAULT_RGB_COLOR)[2],
-                    },
-                ]
-
-const radiusPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Out',
-                        min: 0,
-                        max: CANVAS_HEIGHT / 2,
-                        value: DEFAULT_OUT_RADIUS,
-                    },
-                    {
-                        id: 1,
-                        label: 'In',
-                        min: 1,
-                        max: CANVAS_HEIGHT / 2,
-                        value: DEFAULT_IN_RADIUS,
-                    }
-                ]
-
-const anglePickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Angle',
-                        min: 0,
-                        max: 360,
-                        value: DEFAULT_ANGLE,
-                    }
-                ]
-
-const angleRadiusPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Angle',
-                        min: 0,
-                        max: 360,
-                        value: DEFAULT_ANGLE_ROSE,
-                    }
-                    ,
-                    {
-                        id: 1,
-                        label: 'Radius',
-                        min: 1,
-                        max: CANVAS_HEIGHT / 2,
-                        value: DEFAULT_OUT_RADIUS,
-                    }
-                ]
-
-const colorThresholdPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Color threshold',
-                        min: 0,
-                        max: 100,
-                        value: DEFAULT_COLOR_THRESHOLD,
-                    }
-                ]
-
+const toggleShowInformation = () => {
+    showInformation.value = !showInformation.value
+}
 
 </script>
 
@@ -279,6 +261,13 @@ const colorThresholdPickerParams: PickerParams = [
             />  
         </div>
     </div>
+    <IconInfoCircle 
+        class="iconInfoCircle" 
+        @click="toggleShowInformation"
+    />
+    <Modal
+        v-model:isShown="showInformation"
+    />
 </template>
 
 <style>
@@ -333,5 +322,15 @@ const colorThresholdPickerParams: PickerParams = [
     position: relative;
 }
 
+.iconInfoCircle {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    transition: 0.2s;
+    cursor: pointer;
+}
 
+.iconInfoCircle:hover {
+    transform: scale(1.1);
+}
 </style>
