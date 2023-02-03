@@ -13,6 +13,8 @@ button {
   color: #2A0513;
   outline: none;
   transition: transform .2s;
+  margin: 0.1em;
+  font-family:'brown-ll';
 }
 
 button:hover {
@@ -25,4 +27,17 @@ button:active {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0);
   border: 0;
   transform: translateY(1px);
+}
+
+button.main {
+  background-color: #1c68bfe8;
+  color: #ECEBE4;
+}
+
+button.main:hover {
+  background-color: #1C68BF;
+}
+
+input {
+  cursor: pointer;
 }

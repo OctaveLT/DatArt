@@ -2,6 +2,7 @@
 
 import { ref, watch, reactive } from 'vue'
 import { sortColors } from '../../utils'
+import IconLines from '../icons/IconLines.vue';
 import CanvasContainer from './CanvasContainer.vue';
 
 type distribution = {
@@ -121,7 +122,11 @@ const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         :backgroundColor="backgroundColor"
         :drawing="drawLines"
         :updateParameters="[angle]"
-    />
+    >
+        <template #icon>
+            <IconLines/>
+        </template>
+    </CanvasContainer>
 </template>
 
 <style>

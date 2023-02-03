@@ -1,13 +1,17 @@
 <script setup lang="ts">
 
-import { rgb2hsl , hsl2rgb, color2string, string2color } from '../utils.js'
+import { rgb2hsl , hex2rgb, hsl2rgb, color2string, string2color } from '../utils.js'
 import IconRightArrow from './icons/IconRightArrow.vue'
 import Circle from './canvas/Circle.vue'
 import Lines from './canvas/Lines.vue'
 import Rose from './canvas/Rose.vue'
 import SlidersPicker from './elements/SlidersPicker.vue'
+import ColorPicker from './elements/ColorPicker.vue'
 import { ref } from 'vue'
 import VideoUploader from './elements/VideoUploader.vue'
+import IconCircle from './icons/IconCircle.vue'
+import IconLines from './icons/IconLines.vue'
+import IconRose from './icons/IconRose.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -23,11 +27,12 @@ type PickerParams = {
 
 const MAX_COUNT = 1000
 const CANVAS_HEIGHT = 280
-const DEFAULT_RGB_COLOR = [255, 255, 255]
+const DEFAULT_RGB_COLOR = '#ffffff'
 const DEFAULT_OUT_RADIUS = CANVAS_HEIGHT * 0.45
 const DEFAULT_IN_RADIUS = CANVAS_HEIGHT * 0.25
-const DEFAULT_ANGLE_ROSE = 20
+const DEFAULT_ANGLE_ROSE = 120
 const DEFAULT_ANGLE = 0
+const DEFAULT_COLOR_THRESHOLD = 25
 const DEFAULT_IS_SORTED = false
 
 const colorResultsArray = ref<string[][]>([])
@@ -88,7 +93,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
 
         numberFrameProcessed++
 
-        let relativeIndex: number = Math.floor(colorThreshold.value * 0.01 * (sortedColors.length - 1))
+        let relativeIndex: number = Math.floor(colorThreshold.value[0] * 0.01 * (sortedColors.length - 1))
         let result: string[] = string2color(sortedColors[relativeIndex])
         colorResultsArray.value.push(result)
 
@@ -98,12 +103,12 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     video?.addEventListener('play', computeFrame )
 }
 
-const rgbColor = ref(DEFAULT_RGB_COLOR)
+const rgbColor = ref([DEFAULT_RGB_COLOR])
 const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
 const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
 const angleLines = ref([DEFAULT_ANGLE])
 const isSorted = ref(DEFAULT_IS_SORTED)
-const colorThreshold = ref(1)
+const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
       
 const colorPickerParams: PickerParams = [
                     {
@@ -111,21 +116,21 @@ const colorPickerParams: PickerParams = [
                         label: 'R',
                         min: 0,
                         max: 255,
-                        value: DEFAULT_RGB_COLOR[0],
+                        value: hex2rgb(DEFAULT_RGB_COLOR)[0],
                     },
                     {
                         id: 1,
                         label: 'G',
                         min: 0,
                         max: 255,
-                        value: DEFAULT_RGB_COLOR[1],
+                        value: hex2rgb(DEFAULT_RGB_COLOR)[1],
                     },
                     {
                         id: 2,
                         label: 'B',
                         min: 0,
                         max: 255,
-                        value: DEFAULT_RGB_COLOR[2],
+                        value: hex2rgb(DEFAULT_RGB_COLOR)[2],
                     },
                 ]
 
@@ -174,40 +179,71 @@ const angleRadiusPickerParams: PickerParams = [
                     }
                 ]
 
+const colorThresholdPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: 'Color threshold',
+                        min: 0,
+                        max: 100,
+                        value: DEFAULT_COLOR_THRESHOLD,
+                    }
+                ]
+
+
 </script>
 
 <template>
     <div
         class="container"
     >
-    <button>ddd</button>
         <div class="settings">
-            <SlidersPicker 
-                v-model="rgbColor"
-                name="Background color"
-                :params="colorPickerParams"
-            />
-            <div class="separationBorder"></div>
+            <div>
+                <SlidersPicker 
+                    v-model="colorThreshold"
+                    name="Color threshold"
+                    :params="colorThresholdPickerParams"
+                    >
+                <template #icon>
+                   GENERAL
+                </template>
+            </SlidersPicker>
+                <ColorPicker
+                    v-model="rgbColor"
+                    name="Background"
+                    label="Background"
+                    :value="DEFAULT_RGB_COLOR"
+                />                
+            </div>
+            <div class="separationBorder main"></div>
             <SlidersPicker 
                 v-model="radius"
-                name="Radius"
+                name="Circle"
                 :params="radiusPickerParams"
-            />
+            >
+                <template #icon>
+                    <IconCircle/>
+                </template>
+            </SlidersPicker>
             <div class="separationBorder"></div>
             <SlidersPicker 
                 v-model="angleLines"
-                name="Lines angle"
+                name="Lines"
                 :params="anglePickerParams"
-            />
+            >
+                <template #icon>
+                    <IconLines/>
+                </template>
+            </SlidersPicker>
             <div class="separationBorder"></div>
             <SlidersPicker 
                 v-model="angleRose"
-                name="Rose angle"
+                name="Rose"
                 :params="angleRadiusPickerParams"
-            />
-            <input type="range" v-model="colorThreshold"/>
-            {{ colorThreshold }}
-            <input type="checkbox"/>
+            >
+                <template #icon>
+                    <IconRose/>
+                </template>
+            </SlidersPicker>
         </div>
         <div class="videoProcess">
             <VideoUploader
@@ -218,7 +254,7 @@ const angleRadiusPickerParams: PickerParams = [
             <IconRightArrow id="iconRightArrow"/>
             <Circle 
                 :colors="colorResultsArray"
-                :backgroundColor="rgbColor"
+                :backgroundColor="hex2rgb(rgbColor[0])"
                 :height="CANVAS_HEIGHT"
                 :width="CANVAS_HEIGHT"
                 :outsideRadius="radius[0]"
@@ -226,7 +262,7 @@ const angleRadiusPickerParams: PickerParams = [
             />
             <Lines 
                 :colors="colorResultsArray"
-                :backgroundColor="rgbColor"
+                :backgroundColor="hex2rgb(rgbColor[0])"
                 :height="CANVAS_HEIGHT"
                 :width="CANVAS_HEIGHT"
                 :scale="2"
@@ -235,7 +271,7 @@ const angleRadiusPickerParams: PickerParams = [
             />
             <Rose 
                 :colors="colorResultsArray"
-                :backgroundColor="rgbColor"
+                :backgroundColor="hex2rgb(rgbColor[0])"
                 :height="CANVAS_HEIGHT"
                 :width="CANVAS_HEIGHT"
                 :angle="angleRose[0]"
@@ -260,7 +296,7 @@ const angleRadiusPickerParams: PickerParams = [
 }
 
 #iconRightArrow {
-    color: green;
+    color: #CC998D;
 }
 
 .settings {
@@ -268,19 +304,24 @@ const angleRadiusPickerParams: PickerParams = [
     flex-direction: row;
     justify-content: center;
     padding: 0.1em;
-    border: 3px solid rgba(83, 83, 83, 0.186);
+    border: 1px solid rgba(83, 83, 83, 0.186);
     border-radius: 0.5em;
     margin-bottom: 2em;
     margin-top: 1em;
     padding: 1em;
-}
-
-.colorPicker {
-    margin: 0.1em;
+    background-color: rgba(236, 235, 228, 0.6);
 }
 
 .separationBorder {
     margin: 1em;
+    border: 1px dashed rgb(155, 136, 136);
+}
+
+.separationBorder.main {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
     border: 1px solid rgb(155, 136, 136);
 }
 

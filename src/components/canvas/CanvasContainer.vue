@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { ref, watch } from 'vue'
+import IconLines from '../icons/IconLines.vue';
 
 const props = defineProps<{
     drawing: (colors: string[][], canvasRef: HTMLCanvasElement) => void,
@@ -8,7 +9,7 @@ const props = defineProps<{
     backgroundColor: number[],
     height: number,
     width: number,
-    updateParameters: number[]
+    updateParameters: number[],
 }>()
 
 const canvas = ref()
@@ -47,6 +48,9 @@ const downloadAsImg = () => {
 
 <template>
     <div class="canvasContainer">
+        <div class="slotWrapper">
+            <slot class="slot" name="icon"/>
+        </div>
         <canvas 
             ref="canvas" 
             :height="height"
@@ -68,17 +72,25 @@ const downloadAsImg = () => {
 <style>
 canvas {
     border: 1px solid whitesmoke;
-    margin: 1em;
+    margin: 0em 1em 1em 1em;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.135);
 }
 
 .canvasContainer {
-    position: relative
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.slotWrapper {
+    align-self: center;
 }
 
 .canvasContainer div {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .canvasContainer button {
@@ -89,7 +101,7 @@ canvas {
 
 .canvasContainer:hover button {
     visibility: visible;
-    align-self: center;
+    
 }
 
 </style>

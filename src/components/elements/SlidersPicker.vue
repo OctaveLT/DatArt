@@ -24,13 +24,15 @@ const handleInput = (index: number, e: Event, ) => {
 </script>
 
 <template>
-    <div class="picker">
-        <div class="title">{{ name }}</div>
+    <div class="sliderPicker">
+        <div class="title">
+            <slot class="slot" name="icon"></slot>
+        </div>
         <div class="inputsContainer" v-for="param in params">
-            <div class="inputContainer">
-                <div class="label">
+            <div class="label">
                     {{ param.label }}
                 </div>
+            <div class="inputContainer">
                 <input
                     type="range"
                     @input="(e) => handleInput(param.id, e)"
@@ -44,42 +46,38 @@ const handleInput = (index: number, e: Event, ) => {
 </template>
 
 <style>
-div {
+.sliderPicker {
     display: flex;
     flex-direction: column;
     justify-content: baseline;
 }
 
-div > .title {
-    text-align: center;
-    font-weight: bold;
+.sliderPicker > .title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
 }
 
-.inputsContainer {
-    flex: 1;
-    align-self: stretch;
+.sliderPicker > .title > div {
+    font-weight: normal;
+    font-size: larger;
+}
+
+.sliderPicker > .inputsContainer {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    align-items: flex-start;
 }
 
-.inputContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-.inputContainer > div {
-    flex-basis: 20%;
+.sliderPicker > .inputsContainer > .label {
+    font-size: medium;
 }
 
-.inputContainer > input {
-    flex-basis: 80%;
-    width: 100%;
+.sliderPicker > .inputContainer > input {
+    outline: none;
 }
 
-.inputContainer > .label {
-    margin-right: 0.5em;
-    vertical-align: middle;
-}
+
+
 
 </style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { ref } from 'vue'
+import IconArrowRepeat from '../icons/IconArrowRepeat.vue';
 
 const props = defineProps<{
     height: number,
@@ -65,17 +66,19 @@ const onVideoPicked = () => {
             <button @click="chooseNewVideo">
                 New video
             </button>
-            <button @click="restartVideo">
-                Restart
+            <button @click="restartVideo" class="restart">
+                <IconArrowRepeat class="iconArrowRepeat"/>
             </button>
         </div>
     </div>
     <button
-        class="noVideo"
+        class="main noVideo"
         v-show="!videoSource"
         @click="onPickVideo"
     >
-        Upload a video to extract its color! (Preferably low quality)
+        <h1>Upload a video to extract its colors! </h1>
+        <br/>     
+        <p>(Preferably low quality)</p>   
     </button>
 </template>
 
@@ -84,9 +87,15 @@ const onVideoPicked = () => {
 video {
     border: 1px solid grey;
     border-radius: 1em;
-    background-color: rgb(220, 217, 217);
+    background-color: rgba(220, 217, 217, 0.3);
     margin: 1em;
     cursor: pointer;
+}
+
+.videoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .videoContainer:hover > .pickNewVideo {
@@ -100,6 +109,7 @@ video {
     background-color: white;
     border: 1px dashed grey;
     border-radius: 1em;
+    font-size: large;
     font-weight: bold;
 }
 
@@ -114,7 +124,7 @@ video {
 .pickNewVideo {
     visibility: hidden;
     position: absolute;
-    bottom: -1.3em;
+    bottom: -2em;
     transition: transform .2s;
     align-self: center;
     display: inline;
@@ -122,6 +132,20 @@ video {
 
 .pickNewVideo:hover {
     transform: scale(1.1);
+}
+
+.restart {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.restart:hover {
+    background-color: transparent;
+    transform: scale(1.1);
+}
+
+.restart .iconArrowRepeat {
+    vertical-align: middle;
 }
 
 </style>
