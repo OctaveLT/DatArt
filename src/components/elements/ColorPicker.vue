@@ -21,13 +21,12 @@ const handleInput = (index: number, e: Event, ) => {
 <template>
     <div class="colorPicker">
         <div class="title">
-            <div>{{ name }}</div>
             <slot class="slot" name="icon"/>
         </div>
+        <div class="label">
+            {{ label }}
+        </div>
         <div class="inputContainer">
-            <div class="label">
-                {{ label }}
-            </div>
             <input
                 type="color"
                 @input="(e) => handleInput(0, e)"
@@ -42,6 +41,7 @@ const handleInput = (index: number, e: Event, ) => {
     display: flex;
     flex-direction: column;
     justify-content: baseline;
+    align-items: flex-start;
 }
 
 .colorPicker > .title {
@@ -60,24 +60,13 @@ const handleInput = (index: number, e: Event, ) => {
     vertical-align: baseline;
 }
 
-.inputContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin: 0.3em;
-}
-.inputContainer > div {
-    flex-basis: 20%;
+.colorPicker > .inputContainer {
+    align-self: stretch;
 }
 
-.inputContainer > input {
-    flex-basis: 80%;
+.colorPicker > .inputContainer > input {
+    margin-top: 0.4em;
     width: 100%;
-}
-
-.inputContainer > .label {
-    margin-right: 0.5em;
-    vertical-align: middle;
 }
 
 </style>

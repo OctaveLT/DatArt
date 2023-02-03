@@ -37,3 +37,7 @@ button.main {
 button.main:hover {
   background-color: #1C68BF;
 }
+
+input {
+  cursor: pointer;
+}

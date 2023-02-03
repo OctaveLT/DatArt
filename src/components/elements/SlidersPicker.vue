@@ -26,14 +26,13 @@ const handleInput = (index: number, e: Event, ) => {
 <template>
     <div class="picker">
         <div class="title">
-            <div>{{ name }}</div>
             <slot class="slot" name="icon"/>
         </div>
         <div class="inputsContainer" v-for="param in params">
-            <div class="inputContainer">
-                <div class="label">
+            <div class="label">
                     {{ param.label }}
                 </div>
+            <div class="inputContainer">
                 <input
                     type="range"
                     @input="(e) => handleInput(param.id, e)"
@@ -56,6 +55,7 @@ const handleInput = (index: number, e: Event, ) => {
 .picker > .title {
     display: flex;
     justify-content: center;
+    margin-bottom: 1em;
 }
 
 .picker > .title > div {
@@ -70,30 +70,14 @@ const handleInput = (index: number, e: Event, ) => {
 }
 
 .inputsContainer {
-    flex: 1;
-    align-self: stretch;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-}
-
-.inputContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-.inputContainer > div {
-    flex-basis: 20%;
+    align-items: flex-start;
 }
 
 .inputContainer > input {
-    flex-basis: 80%;
-    width: 100%;
+    outline: none;
 }
 
-.inputContainer > .label {
-    margin-right: 0.5em;
-    vertical-align: middle;
-}
 
 </style>
