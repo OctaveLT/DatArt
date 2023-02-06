@@ -279,9 +279,11 @@ const toggleShowInformation = () => {
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin: 1em;
     text-align: center;
+    height: 100vh;
+    padding-bottom: 1em;
 }
 
 #outputCanvas {
@@ -303,6 +305,7 @@ const toggleShowInformation = () => {
     margin-top: 1em;
     padding: 1em;
     background-color: rgba(236, 235, 228, 0.6);
+    flex-basis: 25%;
 }
 
 .separationBorder {

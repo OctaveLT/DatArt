@@ -7,8 +7,6 @@ const props = defineProps<{
     modelValue: string[]
 }>()
 
-console.log(props.label, props.modelValue)
-
 const emit = defineEmits(['update:modelValue'])
 
 const handleInput = (index: number, e: Event, ) => {
