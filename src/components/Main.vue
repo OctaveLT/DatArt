@@ -1,19 +1,17 @@
 <script setup lang="ts">
 
-import { rgb2hsl , hex2rgb, hsl2rgb, color2string, string2color, useBreakpoints } from '../utils.js'
+import { rgb2hsl , hex2rgb, color2string, string2color, useBreakpoints } from '../utils.js'
 import IconRightArrow from './icons/IconRightArrow.vue'
 import Circle from './canvas/Circle.vue'
 import Lines from './canvas/Lines.vue'
 import Rose from './canvas/Rose.vue'
 import SlidersPicker from './elements/SlidersPicker.vue'
 import ColorPicker from './elements/ColorPicker.vue'
-import { onMounted, onUnmounted, ref, reactive } from 'vue'
+import { ref } from 'vue'
 import VideoUploader from './elements/VideoUploader.vue'
 import IconCircle from './icons/IconCircle.vue'
 import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
-import IconInfoCircle from './icons/IconInfoCircle.vue'
-import Modal from './elements/Modal.vue'
 import { SETTINGS } from '../assets/texts'
 import InformationModal from './elements/InformationModal.vue'
 
@@ -48,7 +46,6 @@ const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
 const angleLines = ref([DEFAULT_ANGLE])
 const isSorted = ref(DEFAULT_IS_SORTED)
 const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
-const showInformation = ref<boolean>(false)
 
 const radiusPickerParams: PickerParams = [
                     {
@@ -169,10 +166,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     }
 
     video?.addEventListener('play', computeFrame )
-}
-
-const toggleShowInformation = () => {
-    showInformation.value = !showInformation.value
 }
 
 </script>
