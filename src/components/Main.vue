@@ -15,6 +15,7 @@ import IconRose from './icons/IconRose.vue'
 import IconInfoCircle from './icons/IconInfoCircle.vue'
 import Modal from './elements/Modal.vue'
 import { SETTINGS } from '../assets/texts'
+import InformationModal from './elements/InformationModal.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -263,16 +264,7 @@ const toggleShowInformation = () => {
             />  
         </div>
     </div>
-    <IconInfoCircle 
-        class="iconInfoCircle" 
-        @click="toggleShowInformation"
-    />
-    <div class="beta">
-        Beta
-    </div>
-    <Modal
-        v-model:isShown="showInformation"
-    />
+    <InformationModal/>
 </template>
 
 <style>
@@ -329,42 +321,5 @@ const toggleShowInformation = () => {
     align-items: center;
     position: relative;
 }
-
-.iconInfoCircle {
-    position: fixed;
-    top: 1em;
-    right: 1em;
-    transition: 0.2s;
-    cursor: pointer;
-}
-
-.iconInfoCircle:hover {
-    transform: scale(1.1);
-}
-
-@keyframes scale {
-    0% {
-            transform: scale(1)
-        }
-    75% {
-            transform: scale(1)
-        }
-    80% {
-        transform: scale(1.3)
-        }
-    90% {
-        transform: scale(1);
-    }
-}
-
-.beta {
-    position: fixed;
-    top: 2.3em;
-    right: 1em;
-    color: #CC998D;
-    animation: scale 10s linear 0s infinite alternate;
-}
-
-
 
 </style>

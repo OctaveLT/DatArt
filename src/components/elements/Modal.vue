@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import IconX from '../icons/IconX.vue';
-import IconLinkedIn from '../icons/IconLinkedIn.vue';
-import IconGitHub from '../icons/IconGitHub.vue';
-import { INFORMATION } from '../../assets/texts'
 
 const props = defineProps<{
     isShown: boolean,
@@ -22,17 +18,7 @@ const toggleModal = () => {
             <div class="greyBackground" @click="toggleModal">
             </div>
             <div class="information" @click="(e: Event) => e.preventDefault()">
-                <h1>{{ INFORMATION.title }}<img src="/datArtLogo.svg"/></h1>
-                <p class="intro"><img src="/circle.png"/>{{ INFORMATION.intro }}</p>
-                <br/>
-                <p>
-                    <b>{{ INFORMATION.about }}</b>
-                    {{ INFORMATION.myself }}
-                </p>
-                <div class="links">
-                    <a href="https://www.linkedin.com/in/octave-le-tullier" target="_blank"><IconLinkedIn/></a>
-                    <a href="https://github.com/OctaveLT" target="_blank"><IconGitHub/></a>
-                </div>
+                <slot name="content"></slot>
                 <IconX class="closeIcon" @click="toggleModal"/>
             </div>
         </div>
@@ -64,50 +50,6 @@ const toggleModal = () => {
     padding: 1.8em;
     background-color: #CC998D;
     border-radius: 1em;
-}
-
-.modal > .information > h1 {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.5em;
-}
-
-.modal > .information > h1 > img {
-    margin-left: 0.2em;
-    height: 1em;
-    width: 1em;
-}
-
-.modal > .information > .intro {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal > .information > .intro > img {
-    height: 10em;
-    width: 10em;
-    margin-right: 1em;
-}
-
-.modal > .information b {
-    font-weight: bold;
-}
-
-.modal > .information > .links {
-    padding-top: 1.1em;
-    display: flex;
-    justify-content: center;
-}
-
-.modal > .information > .links > a {
-    margin-right: 1em;
-}
-
-.modal > .information > .links > a:hover {
-    transform: scale(1.1);
 }
 
 .modal > .information > .closeIcon {

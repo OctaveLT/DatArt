@@ -28,6 +28,4 @@ export const SETTINGS = {
         roseAngle: 'Angle',
         roseRadius: 'Radius'
     }
-
-
 }
