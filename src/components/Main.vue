@@ -45,7 +45,7 @@ const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
 const angleLines = ref([DEFAULT_ANGLE])
 const isSorted = ref(DEFAULT_IS_SORTED)
 const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
-const showInformation = ref<boolean>(true)
+const showInformation = ref<boolean>(false)
 
 const radiusPickerParams: PickerParams = [
                     {
@@ -265,6 +265,9 @@ const toggleShowInformation = () => {
         class="iconInfoCircle" 
         @click="toggleShowInformation"
     />
+    <div class="beta">
+        Beta
+    </div>
     <Modal
         v-model:isShown="showInformation"
     />
@@ -333,4 +336,30 @@ const toggleShowInformation = () => {
 .iconInfoCircle:hover {
     transform: scale(1.1);
 }
+
+@keyframes scale {
+    0% {
+            transform: scale(1)
+        }
+    75% {
+            transform: scale(1)
+        }
+    80% {
+        transform: scale(1.3)
+        }
+    90% {
+        transform: scale(1);
+    }
+}
+
+.beta {
+    position: fixed;
+    top: 2.3em;
+    right: 1em;
+    color: #CC998D;
+    animation: scale 10s linear 0s infinite alternate;
+}
+
+
+
 </style>
