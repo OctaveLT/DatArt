@@ -1,3 +1,5 @@
+import { computed, onMounted, onUnmounted, reactive } from "vue"
+
 export const hex2rgb = (hex) => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
     return [parseInt(result[1], 16), 
@@ -151,4 +153,25 @@ export function sortColors(colors, balance) {
 
     // By now all colors should be in one cluster
     return [lastCluster, colorOccurences]
+}
+
+export const useBreakpoints = (ratio) => {
+  const windowSize = reactive({ h: window.innerHeight, w: window.innerWidth })
+
+    const onResize = () => {
+        windowSize.h = window.innerHeight
+        windowSize.w = window.innerWidth
+    }
+
+    onMounted(() => {
+        window.addEventListener("resize", onResize)
+    })
+
+    onUnmounted(() => {
+        window.removeEventListener("resize", onResize)
+    })
+
+    const width = computed(() => windowSize.w * ratio)
+  
+    return width
 }
