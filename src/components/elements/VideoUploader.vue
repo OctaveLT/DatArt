@@ -2,6 +2,7 @@
 
 import { ref } from 'vue'
 import IconArrowRepeat from '../icons/IconArrowRepeat.vue';
+import { VIDEO_UPLOADER } from '../../assets/texts'
 
 const props = defineProps<{
     height: number,
@@ -24,6 +25,12 @@ const chooseNewVideo = () => {
 
 const restartVideo = () => {
     video.value?.load()
+}
+
+const loadTestVideo = (e: Event) => {
+    e.preventDefault()
+    videoSource.value = '/colorful-shape-stefwithanf.mp4'
+    video.value?.addEventListener('loadeddata', () => props.videoProcessing(video.value as HTMLVideoElement, videoSource.value))    
 }
 
 const onVideoPicked = () => {
@@ -64,7 +71,7 @@ const onVideoPicked = () => {
         </video>
         <div class="pickNewVideo" >
             <button @click="chooseNewVideo">
-                New video
+                {{ VIDEO_UPLOADER.newVideo }}
             </button>
             <button @click="restartVideo" class="restart">
                 <IconArrowRepeat class="iconArrowRepeat"/>
@@ -76,9 +83,16 @@ const onVideoPicked = () => {
         v-show="!videoSource"
         @click="onPickVideo"
     >
-        <h1>Upload a video to extract its colors! </h1>
+        <h1>{{ VIDEO_UPLOADER.uploadVideo }}</h1>
         <br/>     
-        <p>(Preferably low quality)</p>   
+        <p>{{ VIDEO_UPLOADER.lowQualityPreference }}</p> 
+    </button>
+    <button 
+        @click="loadTestVideo" 
+        class="tryOut" 
+        v-show="!videoSource" 
+        :title="VIDEO_UPLOADER.creditTitle">
+        {{ VIDEO_UPLOADER.tryOut }}
     </button>
 </template>
 
@@ -111,6 +125,7 @@ video {
     border-radius: 1em;
     font-size: large;
     font-weight: bold;
+    position: relative;
 }
 
 .noVideo:hover {
@@ -146,6 +161,12 @@ video {
 
 .restart .iconArrowRepeat {
     vertical-align: middle;
+}
+
+.tryOut {
+    position: absolute;
+    top: -2em;
+    left: 1em;
 }
 
 </style>

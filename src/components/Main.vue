@@ -14,6 +14,7 @@ import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
 import IconInfoCircle from './icons/IconInfoCircle.vue'
 import Modal from './elements/Modal.vue'
+import { SETTINGS } from '../assets/texts'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -51,14 +52,14 @@ const showInformation = ref<boolean>(false)
 const radiusPickerParams: PickerParams = [
                     {
                         id: 0,
-                        label: 'Out',
+                        label: SETTINGS.label.outsideRadius,
                         min: 0,
                         max: canvasResponsiveSize.value / 2,
                         value: DEFAULT_OUT_RADIUS,
                     },
                     {
                         id: 1,
-                        label: 'In',
+                        label: SETTINGS.label.insideRadius,
                         min: 1,
                         max: canvasResponsiveSize.value / 2,
                         value: DEFAULT_IN_RADIUS,
@@ -68,7 +69,7 @@ const radiusPickerParams: PickerParams = [
 const anglePickerParams: PickerParams = [
                     {
                         id: 0,
-                        label: 'Angle',
+                        label: SETTINGS.label.linesAngle,
                         min: 0,
                         max: 360,
                         value: DEFAULT_ANGLE,
@@ -78,7 +79,7 @@ const anglePickerParams: PickerParams = [
 const angleRadiusPickerParams: PickerParams = [
                     {
                         id: 0,
-                        label: 'Angle',
+                        label: SETTINGS.label.roseAngle,
                         min: 0,
                         max: 360,
                         value: DEFAULT_ANGLE_ROSE,
@@ -86,7 +87,7 @@ const angleRadiusPickerParams: PickerParams = [
                     ,
                     {
                         id: 1,
-                        label: 'Radius',
+                        label: SETTINGS.label.roseRadius,
                         min: 1,
                         max: canvasResponsiveSize.value / 2,
                         value: DEFAULT_OUT_RADIUS,
@@ -96,7 +97,7 @@ const angleRadiusPickerParams: PickerParams = [
 const colorThresholdPickerParams: PickerParams = [
                     {
                         id: 0,
-                        label: 'Color threshold',
+                        label: SETTINGS.label.colorThreshold,
                         min: 0,
                         max: 100,
                         value: DEFAULT_COLOR_THRESHOLD,
@@ -183,17 +184,17 @@ const toggleShowInformation = () => {
             <div>
                 <SlidersPicker 
                     v-model="colorThreshold"
-                    name="Color threshold"
+                    :name="SETTINGS.label.colorThreshold"
                     :params="colorThresholdPickerParams"
                     >
                 <template #icon>
-                   GENERAL
+                   {{ SETTINGS.generalTitle }}
                 </template>
             </SlidersPicker>
                 <ColorPicker
                     v-model="rgbColor"
-                    name="Background"
-                    label="Background"
+                    :name="SETTINGS.label.backgroundColor"
+                    :label="SETTINGS.label.backgroundColor"
                     :value="DEFAULT_RGB_COLOR"
                 />                
             </div>
