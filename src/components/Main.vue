@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
-import { rgb2hsl , hex2rgb, hsl2rgb, color2string, string2color } from '../utils.js'
+import { rgb2hsl , hex2rgb, hsl2rgb, color2string, string2color, useBreakpoints } from '../utils.js'
 import IconRightArrow from './icons/IconRightArrow.vue'
 import Circle from './canvas/Circle.vue'
 import Lines from './canvas/Lines.vue'
 import Rose from './canvas/Rose.vue'
 import SlidersPicker from './elements/SlidersPicker.vue'
 import ColorPicker from './elements/ColorPicker.vue'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import VideoUploader from './elements/VideoUploader.vue'
 import IconCircle from './icons/IconCircle.vue'
 import IconLines from './icons/IconLines.vue'
@@ -28,14 +28,15 @@ type PickerParams = {
             }[]
 
 const MAX_COUNT = 1000
-const CANVAS_HEIGHT = 280
-const DEFAULT_RGB_COLOR = '#ffffff'
-const DEFAULT_OUT_RADIUS = CANVAS_HEIGHT * 0.45
-const DEFAULT_IN_RADIUS = CANVAS_HEIGHT * 0.25
 const DEFAULT_ANGLE_ROSE = 120
 const DEFAULT_ANGLE = 0
 const DEFAULT_COLOR_THRESHOLD = 25
 const DEFAULT_IS_SORTED = false
+const DEFAULT_RGB_COLOR = '#ffffff'
+const CANVAS_WIDTH_RATIO = 0.21
+const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
+const DEFAULT_OUT_RADIUS = canvasResponsiveSize.value * 0.45
+const DEFAULT_IN_RADIUS = canvasResponsiveSize.value * 0.25
 
 const colorResultsArray = ref<string[][]>([])
 
@@ -52,14 +53,14 @@ const radiusPickerParams: PickerParams = [
                         id: 0,
                         label: 'Out',
                         min: 0,
-                        max: CANVAS_HEIGHT / 2,
+                        max: canvasResponsiveSize.value / 2,
                         value: DEFAULT_OUT_RADIUS,
                     },
                     {
                         id: 1,
                         label: 'In',
                         min: 1,
-                        max: CANVAS_HEIGHT / 2,
+                        max: canvasResponsiveSize.value / 2,
                         value: DEFAULT_IN_RADIUS,
                     }
                 ]
@@ -87,7 +88,7 @@ const angleRadiusPickerParams: PickerParams = [
                         id: 1,
                         label: 'Radius',
                         min: 1,
-                        max: CANVAS_HEIGHT / 2,
+                        max: canvasResponsiveSize.value / 2,
                         value: DEFAULT_OUT_RADIUS,
                     }
                 ]
@@ -229,7 +230,7 @@ const toggleShowInformation = () => {
         </div>
         <div class="videoProcess">
             <VideoUploader
-                :height="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
                 :video-processing="videoProcessing"
             />     
             <canvas id="outputCanvas" ></canvas>    
@@ -237,16 +238,16 @@ const toggleShowInformation = () => {
             <Circle 
                 :colors="colorResultsArray"
                 :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="CANVAS_HEIGHT"
-                :width="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
+                :width="canvasResponsiveSize"
                 :outsideRadius="radius[0]"
                 :insideRadius="radius[1]"
             />
             <Lines 
                 :colors="colorResultsArray"
                 :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="CANVAS_HEIGHT"
-                :width="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
+                :width="canvasResponsiveSize"
                 :scale="2"
                 :isColorsSorted="isSorted"
                 :angle="angleLines[0]"
@@ -254,8 +255,8 @@ const toggleShowInformation = () => {
             <Rose 
                 :colors="colorResultsArray"
                 :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="CANVAS_HEIGHT"
-                :width="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
+                :width="canvasResponsiveSize"
                 :angle="angleRose[0]"
                 :outsideRadius="angleRose[1]"
             />  
@@ -278,9 +279,11 @@ const toggleShowInformation = () => {
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin: 1em;
     text-align: center;
+    height: 100vh;
+    padding-bottom: 1em;
 }
 
 #outputCanvas {
@@ -302,6 +305,7 @@ const toggleShowInformation = () => {
     margin-top: 1em;
     padding: 1em;
     background-color: rgba(236, 235, 228, 0.6);
+    flex-basis: 25%;
 }
 
 .separationBorder {
