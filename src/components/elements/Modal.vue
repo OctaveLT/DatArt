@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import IconX from '../icons/IconX.vue';
+
 const props = defineProps<{
     isShown: boolean,
 }>()
@@ -50,6 +52,7 @@ const toggleModal = () => {
     padding: 1.8em;
     background-color: #CC998D;
     border-radius: 1em;
+    z-index: 100;
 }
 
 .modal > .information > .closeIcon {
