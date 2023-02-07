@@ -51,12 +51,6 @@
 } */
 
 @font-face {
-  font-family: 'lostamasta-regular'; 
-  src: url('./freshwost.otf') format("opentype");
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'brown-ll'; 
   src: url('./Brown-RegularAlt.ttf') format("truetype");
   font-style: normal;
