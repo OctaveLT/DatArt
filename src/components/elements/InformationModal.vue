@@ -36,7 +36,7 @@ const toggleShowInformation = () => {
             </template>
         </Modal>
         <IconInfoCircle
-            class="iconInfoCircle" 
+            class="informationClickableIcon" 
             @click="toggleShowInformation"
         />
         <div class="beta">
@@ -92,7 +92,7 @@ const toggleShowInformation = () => {
     transform: scale(1.1);
 }
 
-.iconInfoCircle {
+.informationClickableIcon {
     position: fixed;
     top: 1em;
     right: 1em;
@@ -100,7 +100,7 @@ const toggleShowInformation = () => {
     cursor: pointer;
 }
 
-.iconInfoCircle:hover {
+.informationClickableIcon:hover {
     transform: scale(1.1);
 }
 

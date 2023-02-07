@@ -29,3 +29,7 @@ export const SETTINGS = {
         roseRadius: 'Radius'
     }
 }
+
+export const CANVAS_CONTAINER = {
+    downloadBUtton: 'Download as png'
+}
