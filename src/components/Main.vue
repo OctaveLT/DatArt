@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { rgb2hsl , hex2rgb, hsl2rgb, color2string, string2color } from '../utils.js'
+import { rgb2hsl , hex2rgb, color2string, string2color, useBreakpoints } from '../utils.js'
 import IconRightArrow from './icons/IconRightArrow.vue'
 import Circle from './canvas/Circle.vue'
 import Lines from './canvas/Lines.vue'
@@ -12,6 +12,8 @@ import VideoUploader from './elements/VideoUploader.vue'
 import IconCircle from './icons/IconCircle.vue'
 import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
+import { SETTINGS } from '../assets/texts'
+import InformationModal from './elements/InformationModal.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -26,16 +28,79 @@ type PickerParams = {
             }[]
 
 const MAX_COUNT = 1000
-const CANVAS_HEIGHT = 280
-const DEFAULT_RGB_COLOR = '#ffffff'
-const DEFAULT_OUT_RADIUS = CANVAS_HEIGHT * 0.45
-const DEFAULT_IN_RADIUS = CANVAS_HEIGHT * 0.25
 const DEFAULT_ANGLE_ROSE = 120
 const DEFAULT_ANGLE = 0
 const DEFAULT_COLOR_THRESHOLD = 25
 const DEFAULT_IS_SORTED = false
+const DEFAULT_RGB_COLOR = '#ffffff'
+const CANVAS_WIDTH_RATIO = 0.21
+const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
+const DEFAULT_OUT_RADIUS = canvasResponsiveSize.value * 0.45
+const DEFAULT_IN_RADIUS = canvasResponsiveSize.value * 0.25
 
 const colorResultsArray = ref<string[][]>([])
+
+const rgbColor = ref([DEFAULT_RGB_COLOR])
+const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
+const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
+const angleLines = ref([DEFAULT_ANGLE])
+const isSorted = ref(DEFAULT_IS_SORTED)
+const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
+
+const radiusPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: SETTINGS.label.outsideRadius,
+                        min: 0,
+                        max: canvasResponsiveSize.value / 2,
+                        value: DEFAULT_OUT_RADIUS,
+                    },
+                    {
+                        id: 1,
+                        label: SETTINGS.label.insideRadius,
+                        min: 1,
+                        max: canvasResponsiveSize.value / 2,
+                        value: DEFAULT_IN_RADIUS,
+                    }
+                ]
+
+const anglePickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: SETTINGS.label.linesAngle,
+                        min: 0,
+                        max: 360,
+                        value: DEFAULT_ANGLE,
+                    }
+                ]
+
+const angleRadiusPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: SETTINGS.label.roseAngle,
+                        min: 0,
+                        max: 360,
+                        value: DEFAULT_ANGLE_ROSE,
+                    }
+                    ,
+                    {
+                        id: 1,
+                        label: SETTINGS.label.roseRadius,
+                        min: 1,
+                        max: canvasResponsiveSize.value / 2,
+                        value: DEFAULT_OUT_RADIUS,
+                    }
+                ]
+
+const colorThresholdPickerParams: PickerParams = [
+                    {
+                        id: 0,
+                        label: SETTINGS.label.colorThreshold,
+                        min: 0,
+                        max: 100,
+                        value: DEFAULT_COLOR_THRESHOLD,
+                    }
+                ]
 
 const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     let numberFrameProcessed: number = 0
@@ -103,93 +168,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     video?.addEventListener('play', computeFrame )
 }
 
-const rgbColor = ref([DEFAULT_RGB_COLOR])
-const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
-const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
-const angleLines = ref([DEFAULT_ANGLE])
-const isSorted = ref(DEFAULT_IS_SORTED)
-const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
-      
-const colorPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'R',
-                        min: 0,
-                        max: 255,
-                        value: hex2rgb(DEFAULT_RGB_COLOR)[0],
-                    },
-                    {
-                        id: 1,
-                        label: 'G',
-                        min: 0,
-                        max: 255,
-                        value: hex2rgb(DEFAULT_RGB_COLOR)[1],
-                    },
-                    {
-                        id: 2,
-                        label: 'B',
-                        min: 0,
-                        max: 255,
-                        value: hex2rgb(DEFAULT_RGB_COLOR)[2],
-                    },
-                ]
-
-const radiusPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Out',
-                        min: 0,
-                        max: CANVAS_HEIGHT / 2,
-                        value: DEFAULT_OUT_RADIUS,
-                    },
-                    {
-                        id: 1,
-                        label: 'In',
-                        min: 1,
-                        max: CANVAS_HEIGHT / 2,
-                        value: DEFAULT_IN_RADIUS,
-                    }
-                ]
-
-const anglePickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Angle',
-                        min: 0,
-                        max: 360,
-                        value: DEFAULT_ANGLE,
-                    }
-                ]
-
-const angleRadiusPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Angle',
-                        min: 0,
-                        max: 360,
-                        value: DEFAULT_ANGLE_ROSE,
-                    }
-                    ,
-                    {
-                        id: 1,
-                        label: 'Radius',
-                        min: 1,
-                        max: CANVAS_HEIGHT / 2,
-                        value: DEFAULT_OUT_RADIUS,
-                    }
-                ]
-
-const colorThresholdPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: 'Color threshold',
-                        min: 0,
-                        max: 100,
-                        value: DEFAULT_COLOR_THRESHOLD,
-                    }
-                ]
-
-
 </script>
 
 <template>
@@ -200,17 +178,17 @@ const colorThresholdPickerParams: PickerParams = [
             <div>
                 <SlidersPicker 
                     v-model="colorThreshold"
-                    name="Color threshold"
+                    :name="SETTINGS.label.colorThreshold"
                     :params="colorThresholdPickerParams"
                     >
                 <template #icon>
-                   GENERAL
+                   {{ SETTINGS.generalTitle }}
                 </template>
             </SlidersPicker>
                 <ColorPicker
                     v-model="rgbColor"
-                    name="Background"
-                    label="Background"
+                    :name="SETTINGS.label.backgroundColor"
+                    :label="SETTINGS.label.backgroundColor"
                     :value="DEFAULT_RGB_COLOR"
                 />                
             </div>
@@ -247,7 +225,7 @@ const colorThresholdPickerParams: PickerParams = [
         </div>
         <div class="videoProcess">
             <VideoUploader
-                :height="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
                 :video-processing="videoProcessing"
             />     
             <canvas id="outputCanvas" ></canvas>    
@@ -255,16 +233,16 @@ const colorThresholdPickerParams: PickerParams = [
             <Circle 
                 :colors="colorResultsArray"
                 :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="CANVAS_HEIGHT"
-                :width="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
+                :width="canvasResponsiveSize"
                 :outsideRadius="radius[0]"
                 :insideRadius="radius[1]"
             />
             <Lines 
                 :colors="colorResultsArray"
                 :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="CANVAS_HEIGHT"
-                :width="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
+                :width="canvasResponsiveSize"
                 :scale="2"
                 :isColorsSorted="isSorted"
                 :angle="angleLines[0]"
@@ -272,13 +250,14 @@ const colorThresholdPickerParams: PickerParams = [
             <Rose 
                 :colors="colorResultsArray"
                 :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="CANVAS_HEIGHT"
-                :width="CANVAS_HEIGHT"
+                :height="canvasResponsiveSize"
+                :width="canvasResponsiveSize"
                 :angle="angleRose[0]"
                 :outsideRadius="angleRose[1]"
             />  
         </div>
     </div>
+    <InformationModal/>
 </template>
 
 <style>
@@ -286,9 +265,11 @@ const colorThresholdPickerParams: PickerParams = [
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin: 1em;
     text-align: center;
+    height: 100vh;
+    padding-bottom: 1em;
 }
 
 #outputCanvas {
@@ -310,6 +291,7 @@ const colorThresholdPickerParams: PickerParams = [
     margin-top: 1em;
     padding: 1em;
     background-color: rgba(236, 235, 228, 0.6);
+    flex-basis: 25%;
 }
 
 .separationBorder {
@@ -332,6 +314,5 @@ const colorThresholdPickerParams: PickerParams = [
     align-items: center;
     position: relative;
 }
-
 
 </style>

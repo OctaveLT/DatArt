@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { ref, watch } from 'vue'
-import IconLines from '../icons/IconLines.vue';
+import { CANVAS_CONTAINER } from '@/assets/texts';
 
 const props = defineProps<{
     drawing: (colors: string[][], canvasRef: HTMLCanvasElement) => void,
@@ -63,7 +63,7 @@ const downloadAsImg = () => {
             <button
                 @click="downloadAsImg"
             >
-                Download as png
+                {{ CANVAS_CONTAINER.downloadBUtton }}
             </button>
         </div>
     </div>
