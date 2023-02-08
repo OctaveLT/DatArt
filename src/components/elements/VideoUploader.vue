@@ -29,7 +29,7 @@ const restartVideo = () => {
 
 const loadTestVideo = (e: Event) => {
     e.preventDefault()
-    videoSource.value = '/colorful-shape-stefwithanf.mp4'
+    videoSource.value = VIDEO_UPLOADER.defaultVideo
     video.value?.addEventListener('loadeddata', () => props.videoProcessing(video.value as HTMLVideoElement, videoSource.value))    
 }
 

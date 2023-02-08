@@ -19,7 +19,7 @@ const toggleModal = () => {
         <div class="modal" v-show="isShown">
             <div class="greyBackground" @click="toggleModal">
             </div>
-            <div class="information" @click="(e: Event) => e.preventDefault()">
+            <div class="information">
                 <slot name="content"></slot>
                 <IconX class="closeIcon" @click="toggleModal"/>
             </div>

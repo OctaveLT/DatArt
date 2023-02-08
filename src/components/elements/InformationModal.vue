@@ -32,7 +32,6 @@ const toggleShowInformation = () => {
                     <a href="https://www.linkedin.com/in/octave-le-tullier" target="_blank"><IconLinkedIn/></a>
                     <a href="https://github.com/OctaveLT" target="_blank"><IconGitHub/></a>
                 </div>
-            
             </template>
         </Modal>
         <IconInfoCircle

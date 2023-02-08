@@ -12,5 +12,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: '/datart',
+  base: process.env.NODE_ENV === 'production'
+  ? './'
+  : '/',
 })

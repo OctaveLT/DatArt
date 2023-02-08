@@ -13,7 +13,7 @@ export const VIDEO_UPLOADER = {
     uploadVideo: 'Upload a video to extract its colors!',
     lowQualityPreference: '(Preferably low quality)',
     tryOut: 'Try it out',
-    defaultVideo: '/colorful-shape-stefwithanf.mp4',
+    defaultVideo: '/DatArt/colorful-shape-stefwithanf.mp4',
     creditTitle: 'Try DatArt with a video recorded by StefWithAnF on Pexels.com'
 }
 
