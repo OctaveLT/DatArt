@@ -1,6 +1,9 @@
-# DatArt
+# DatArt <img alt="logo of DatArt" src="/public/datArtLogo.svg" width="23" />
 
-Project in Vue.js aiming to create art from the colors of videos. Remember your favorite videos through more abstract images!
+
+DatArt is a project in Vue.js aiming to transform your video souvenirs into art pictures. Remind your favorite videos through abstract and colorful shapes!
+
+
 
 ## Shapes
 
