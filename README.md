@@ -5,9 +5,12 @@ DatArt is a project in Vue.js aiming to transform your video souvenirs into art 
 
 ![Overall interface](/public/interface.PNG)
 
+**It is easy and intuitive: Upload your video and the magic happens!**
+> Choose a video memory, the calculation is made in real-time, change the settings as you feel it, and download the final shape ;)
+
 ## Shapes
 
-Various colors are collected by the algorithm from your videos, they are then being shaped to make the magic happens: 3 shapes are currently available:
+Various colors are collected by the algorithm from your videos, they are then being shaped in 3 different shapes:
 
 *Circle/Donut*: Put the retrieved colors in a shape of a circle sorted in time order.
 
