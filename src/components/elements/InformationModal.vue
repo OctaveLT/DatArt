@@ -38,7 +38,10 @@ const toggleShowInformation = () => {
             class="informationClickableIcon" 
             @click="toggleShowInformation"
         />
-        <div class="beta">
+        <div 
+            class="beta"
+            @click="toggleShowInformation"
+        >
             Beta
         </div>
     </div>
@@ -124,6 +127,17 @@ const toggleShowInformation = () => {
     right: 1em;
     color: #CC998D;
     animation: scale 10s linear 0s infinite alternate;
+    cursor: pointer;
 }
+
+@media (max-width: 760px) {
+        .informationClickableIcon {
+            width: 1.2em;
+        }
+
+        .beta {
+            right: 0.7em;
+        }
+    }
 
 </style>

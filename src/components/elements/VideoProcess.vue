@@ -62,7 +62,7 @@ const showSlider = () => {
             :outsideRadius="roseValues[1]"
         />  
     </div>
-    <div v-else>
+    <div v-else class="videoProcess">
         <VideoUploader
             @is-video-uploaded="showSlider"
             :height="innnerHeight"
@@ -123,4 +123,10 @@ const showSlider = () => {
 #iconRightArrow {
     color: #CC998D;
 }
+
+@media (max-width: 760px) {
+        .videoProcess {
+            margin-top: 3em;
+        }
+    }
 </style>
