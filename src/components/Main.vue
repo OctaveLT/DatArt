@@ -1,10 +1,6 @@
 <script setup lang="ts">
 
 import { rgb2hsl , hex2rgb, color2string, string2color, useBreakpoints } from '../utils.js'
-import IconRightArrow from './icons/IconRightArrow.vue'
-import Circle from './canvas/Circle.vue'
-import Lines from './canvas/Lines.vue'
-import Rose from './canvas/Rose.vue'
 import SlidersPicker from './elements/SlidersPicker.vue'
 import ColorPicker from './elements/ColorPicker.vue'
 import { ref } from 'vue'
@@ -14,6 +10,7 @@ import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
 import { SETTINGS } from '../assets/texts'
 import InformationModal from './elements/InformationModal.vue'
+import ComputerVideoProcess from './elements/ComputerVideoProcess.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -223,39 +220,16 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
                 </template>
             </SlidersPicker>
         </div>
-        <div class="videoProcess">
-            <VideoUploader
-                :height="canvasResponsiveSize"
-                :video-processing="videoProcessing"
-            />     
-            <canvas id="outputCanvas" ></canvas>    
-            <IconRightArrow id="iconRightArrow"/>
-            <Circle 
-                :colors="colorResultsArray"
-                :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="canvasResponsiveSize"
-                :width="canvasResponsiveSize"
-                :outsideRadius="radius[0]"
-                :insideRadius="radius[1]"
-            />
-            <Lines 
-                :colors="colorResultsArray"
-                :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="canvasResponsiveSize"
-                :width="canvasResponsiveSize"
-                :scale="2"
-                :isColorsSorted="isSorted"
-                :angle="angleLines[0]"
-            />
-            <Rose 
-                :colors="colorResultsArray"
-                :backgroundColor="hex2rgb(rgbColor[0])"
-                :height="canvasResponsiveSize"
-                :width="canvasResponsiveSize"
-                :angle="angleRose[0]"
-                :outsideRadius="angleRose[1]"
-            />  
-        </div>
+        <ComputerVideoProcess
+            :innnerHeight="canvasResponsiveSize"
+            :videoProcessing="videoProcessing"
+            :colors="colorResultsArray"
+            :circleValues="radius"
+            :linesValues="angleLines"
+            :roseValues="angleRose"
+            :isColorsSorted="isSorted"
+            :backgroundColor="hex2rgb(rgbColor[0])"
+        />
     </div>
     <InformationModal/>
 </template>
@@ -270,14 +244,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     text-align: center;
     height: 100vh;
     padding-bottom: 1em;
-}
-
-#outputCanvas {
-    display: none;
-}
-
-#iconRightArrow {
-    color: #CC998D;
 }
 
 .settings {
@@ -305,14 +271,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     margin-left: 1.5em;
     margin-right: 1.5em;
     border: 1px solid rgb(155, 136, 136);
-}
-
-.videoProcess {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
 }
 
 </style>
