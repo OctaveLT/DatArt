@@ -175,3 +175,7 @@ export const useBreakpoints = (ratio) => {
   
     return width
 }
+
+export const useIsMobileVersion = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}

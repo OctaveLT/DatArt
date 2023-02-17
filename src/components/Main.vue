@@ -1,16 +1,15 @@
 <script setup lang="ts">
 
-import { rgb2hsl , hex2rgb, color2string, string2color, useBreakpoints } from '../utils.js'
+import { rgb2hsl , hex2rgb, color2string, string2color, useBreakpoints, useIsMobileVersion } from '../utils.js'
 import SlidersPicker from './elements/SlidersPicker.vue'
 import ColorPicker from './elements/ColorPicker.vue'
 import { ref } from 'vue'
-import VideoUploader from './elements/VideoUploader.vue'
 import IconCircle from './icons/IconCircle.vue'
 import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
 import { SETTINGS } from '../assets/texts'
 import InformationModal from './elements/InformationModal.vue'
-import ComputerVideoProcess from './elements/ComputerVideoProcess.vue'
+import VideoProcess from './elements/VideoProcess.vue'
 
 type ColorDistribution = {
         [keys: string]: number
@@ -24,16 +23,20 @@ type PickerParams = {
                 value: number
             }[]
 
+const isMobileVersion: boolean = useIsMobileVersion()
+
 const MAX_COUNT = 1000
 const DEFAULT_ANGLE_ROSE = 120
 const DEFAULT_ANGLE = 0
 const DEFAULT_COLOR_THRESHOLD = 25
 const DEFAULT_IS_SORTED = false
 const DEFAULT_RGB_COLOR = '#ffffff'
-const CANVAS_WIDTH_RATIO = 0.21
+const CANVAS_WIDTH_RATIO = isMobileVersion ? 0.9 : 0.21
 const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
 const DEFAULT_OUT_RADIUS = canvasResponsiveSize.value * 0.45
 const DEFAULT_IN_RADIUS = canvasResponsiveSize.value * 0.25
+
+
 
 const colorResultsArray = ref<string[][]>([])
 
@@ -171,7 +174,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     <div
         class="container"
     >
-        <div class="settings">
+<!--         <div class="settings">
             <div>
                 <SlidersPicker 
                     v-model="colorThreshold"
@@ -219,8 +222,8 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
                     <IconRose/>
                 </template>
             </SlidersPicker>
-        </div>
-        <ComputerVideoProcess
+        </div> -->
+        <VideoProcess
             :innnerHeight="canvasResponsiveSize"
             :videoProcessing="videoProcessing"
             :colors="colorResultsArray"
