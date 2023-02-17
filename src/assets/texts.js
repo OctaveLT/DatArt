@@ -1,3 +1,5 @@
+export const TITLE = 'DatArt'
+
 export const INFORMATION = {
     title: 'What is DatArt',
     intro: `This project made in Vue.js aimed to extract pixel colors from the uploaded video and re-sort them in order to build artistical shapes called circle, 

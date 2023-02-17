@@ -9,6 +9,7 @@ import IconLines from './icons/IconLines.vue'
 import IconRose from './icons/IconRose.vue'
 import { SETTINGS } from '../assets/texts'
 import InformationModal from './elements/InformationModal.vue'
+import Title from './elements/Title.vue'
 import VideoProcess from './elements/VideoProcess.vue'
 
 type ColorDistribution = {
@@ -172,7 +173,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     <div
         class="container"
     >
-        <p>dededede</p>
+        <Title/>
         <div class="settings" v-show="!isMobileVersion">
             <div>
                 <SlidersPicker 
