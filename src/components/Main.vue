@@ -36,8 +36,6 @@ const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
 const DEFAULT_OUT_RADIUS = canvasResponsiveSize.value * 0.45
 const DEFAULT_IN_RADIUS = canvasResponsiveSize.value * 0.25
 
-
-
 const colorResultsArray = ref<string[][]>([])
 
 const rgbColor = ref([DEFAULT_RGB_COLOR])
@@ -174,7 +172,8 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     <div
         class="container"
     >
-<!--         <div class="settings">
+        <p>dededede</p>
+        <div class="settings" v-show="!isMobileVersion">
             <div>
                 <SlidersPicker 
                     v-model="colorThreshold"
@@ -222,7 +221,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
                     <IconRose/>
                 </template>
             </SlidersPicker>
-        </div> -->
+        </div>
         <VideoProcess
             :innnerHeight="canvasResponsiveSize"
             :videoProcessing="videoProcessing"

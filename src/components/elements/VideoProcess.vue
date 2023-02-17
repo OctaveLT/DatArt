@@ -21,6 +21,12 @@ const props = defineProps<{
 
 const isMobileVersion: boolean = useIsMobileVersion()
 
+const isVideoUploaded = ref<boolean>(false)
+
+const showSlider = () => {
+    isVideoUploaded.value = true
+}
+
 </script>
 
 <template>
@@ -58,10 +64,13 @@ const isMobileVersion: boolean = useIsMobileVersion()
     </div>
     <div v-else>
         <VideoUploader
+            @is-video-uploaded="showSlider"
             :height="innnerHeight"
             :video-processing="videoProcessing"
         />
-        <Slider>
+        <Slider
+            v-show="isVideoUploaded"
+        >
             <template #0>
                 <Circle 
                     :colors="colors"

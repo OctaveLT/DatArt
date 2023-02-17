@@ -3,16 +3,21 @@
 import { ref } from 'vue'
 import IconArrowRepeat from '../icons/IconArrowRepeat.vue';
 import { VIDEO_UPLOADER } from '../../assets/texts'
+import { useIsMobileVersion } from '@/utils';
 
 const props = defineProps<{
     height: number,
     videoProcessing: (video: HTMLVideoElement, videoSource: string) => void,
 }>()
 
+const isMobileVersion = useIsMobileVersion()
+
 const videoSource = ref<string>('')
 const fileInput = ref<HTMLInputElement>()
 const video = ref<HTMLVideoElement>()
 const height = ref<number>(props.height)
+
+const emits = defineEmits(['isVideoUploaded'])
 
 const onPickVideo = () => {
     fileInput.value?.click()
@@ -38,7 +43,10 @@ const onVideoPicked = () => {
     if (fileInput.value && 'files' in fileInput.value) {
         if (fileInput.value.files && fileInput.value.files.length > 0) {
             videoSource.value = URL.createObjectURL(fileInput.value.files[0])
-            video.value?.addEventListener('loadeddata', () => props.videoProcessing(video.value as HTMLVideoElement, videoSource.value))
+            video.value?.addEventListener('loadeddata', () => {
+                emits('isVideoUploaded')
+                props.videoProcessing(video.value as HTMLVideoElement, videoSource.value)
+            })
         } else {
             alert("Select a file to upload")
         }
@@ -59,6 +67,7 @@ const onVideoPicked = () => {
     />
     <div v-show="videoSource" class="videoContainer">
         <video 
+            v-show="!isMobileVersion"
             id="video" 
             ref="video"
             :width="height" 

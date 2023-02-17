@@ -1,5 +1,7 @@
 import { computed, onMounted, onUnmounted, reactive } from "vue"
 
+const MOBILE_MAX_SIZE = 760
+
 export const hex2rgb = (hex) => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
     return [parseInt(result[1], 16), 
@@ -156,7 +158,7 @@ export function sortColors(colors, balance) {
 }
 
 export const useBreakpoints = (ratio) => {
-  const windowSize = reactive({ h: window.innerHeight, w: window.innerWidth })
+    const windowSize = reactive({ h: window.innerHeight, w: window.innerWidth })
 
     const onResize = () => {
         windowSize.h = window.innerHeight
@@ -176,6 +178,5 @@ export const useBreakpoints = (ratio) => {
     return width
 }
 
-export const useIsMobileVersion = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-}
+export const useIsMobileVersion = () => window.innerWidth <= MOBILE_MAX_SIZE
+//return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) //not working correclty
