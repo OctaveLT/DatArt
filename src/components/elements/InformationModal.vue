@@ -22,7 +22,10 @@ const toggleShowInformation = () => {
         >
             <template #content>
                 <h1>{{ INFORMATION.title }}<img src="/datArtLogo.svg"/></h1>
-                <p class="intro"><img src="/circle.png"/>{{ INFORMATION.intro }}</p>
+                <p class="intro">
+                    <img src="/circle.png"/>
+                    {{ INFORMATION.intro }}
+                </p>
                 <br/>
                 <p>
                     <b>{{ INFORMATION.about }}</b>
@@ -60,8 +63,8 @@ const toggleShowInformation = () => {
 
 .modal > .information > h1 > img {
     margin-left: 0.2em;
-    height: 1em;
-    width: 1em;
+    height: 0.7em;
+    width: 0.7em;
 }
 
 .modal > .information > .intro {
@@ -136,7 +139,14 @@ const toggleShowInformation = () => {
         }
 
         .beta {
-            right: 0.7em;
+            right: 1em;
+            top: 2.6em;
+            font-size: small;
+        }
+
+        .intro > img {
+            max-width: 5em;
+            max-height: 5em;
         }
     }
 
