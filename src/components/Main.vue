@@ -26,16 +26,18 @@ type PickerParams = {
 
 const isMobileVersion: boolean = useIsMobileVersion()
 
-const MAX_COUNT = 1000
-const DEFAULT_ANGLE_ROSE = 120
-const DEFAULT_ANGLE = 0
-const DEFAULT_COLOR_THRESHOLD = 25
-const DEFAULT_IS_SORTED = false
-const DEFAULT_RGB_COLOR = '#ffffff'
-const CANVAS_WIDTH_RATIO = isMobileVersion ? 0.9 : 0.21
+const MAX_COUNT: number = 1000
+const DEFAULT_ANGLE_ROSE: number = 120
+const DEFAULT_ANGLE: number = 0
+const DEFAULT_COLOR_THRESHOLD: number = 25
+const DEFAULT_IS_SORTED: boolean = false
+const DEFAULT_RGB_COLOR: string = '#ffffff'
+const CANVAS_WIDTH_RATIO: number = isMobileVersion ? 0.9 : 0.21
 const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
-const DEFAULT_OUT_RADIUS = canvasResponsiveSize.value * 0.45
-const DEFAULT_IN_RADIUS = canvasResponsiveSize.value * 0.25
+const DEFAULT_OUT_RADIUS: number = canvasResponsiveSize.value * 0.45
+const DEFAULT_IN_RADIUS: number = canvasResponsiveSize.value * 0.25
+
+const isVideoSource = ref<boolean>(false)
 
 const colorResultsArray = ref<string[][]>([])
 
@@ -105,6 +107,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     let numberFrameProcessed: number = 0
     colorResultsArray.value.splice(0, colorResultsArray.value.length)
     const currentVideoSource = videoSource
+    isVideoSource.value = true
 
     const vHeight: number = video?.videoHeight || 1
     const vWidth: number = video?.videoWidth || 1
@@ -174,7 +177,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
         class="container"
     >
         <Title/>
-        <div class="settings" v-show="!isMobileVersion">
+        <div class="settings" v-show="!isMobileVersion/*  || isVideoSource */">
             <div>
                 <SlidersPicker 
                     v-model="colorThreshold"
