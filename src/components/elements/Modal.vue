@@ -50,7 +50,7 @@ const toggleModal = () => {
 .modal > .information {
     max-width: 70%;
     padding: 1.8em;
-    background-color: #CC998D;
+    background-color: #cc998de8;
     border-radius: 1em;
     z-index: 100;
 }
@@ -72,4 +72,26 @@ const toggleModal = () => {
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+
+@media (max-width: 760px) {
+        .informationClickableIcon {
+            width: 1.2em;
+        }
+
+        .beta {
+            right: 1em;
+            top: 2.6em;
+            font-size: small;
+        }
+        
+        .modal {
+            font-size: x-small;
+        }
+
+        .modal > .information {
+            max-width: 95%;
+            padding: 1em;
+        }
+    }
+
 </style>
