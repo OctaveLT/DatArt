@@ -127,6 +127,7 @@ const showSlider = () => {
 @media (max-width: 760px) {
         .videoProcess {
             margin-top: 3em;
+            flex-direction: column;
         }
     }
 </style>

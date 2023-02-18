@@ -4,6 +4,8 @@ import { ref } from 'vue'
 import IconArrowRepeat from '../icons/IconArrowRepeat.vue';
 import { VIDEO_UPLOADER } from '../../assets/texts'
 import { useIsMobileVersion } from '@/utils';
+import IconPlay from '../icons/IconPlay.vue';
+import IconPause from '../icons/IconPause.vue';
 
 const props = defineProps<{
     height: number,
@@ -16,6 +18,7 @@ const videoSource = ref<string>('')
 const fileInput = ref<HTMLInputElement>()
 const video = ref<HTMLVideoElement>()
 const height = ref<number>(props.height)
+const isVideoPause = ref<boolean>(false)
 
 const emits = defineEmits(['isVideoUploaded'])
 
@@ -23,16 +26,26 @@ const onPickVideo = () => {
     fileInput.value?.click()
 }
 
-const chooseNewVideo = () => {
+const pauseVideo = () => {
+    //isVideoPause.value = true
     video.value?.pause()
-    onPickVideo()
+}
+
+const playVideo = () => {
+    //isVideoPause.value = false
+    video.value?.play()
 }
 
 const restartVideo = () => {
     video.value?.load()
 }
 
-const loadTestVideo = (e: Event) => {
+const chooseNewVideo = () => {
+    pauseVideo()
+    onPickVideo()
+}
+
+const loadVideo = (e: Event) => {
     e.preventDefault()
     videoSource.value = VIDEO_UPLOADER.defaultVideo
     video.value?.addEventListener('loadeddata', () => props.videoProcessing(video.value as HTMLVideoElement, videoSource.value))    
@@ -46,6 +59,12 @@ const onVideoPicked = () => {
             video.value?.addEventListener('loadeddata', () => {
                 emits('isVideoUploaded')
                 props.videoProcessing(video.value as HTMLVideoElement, videoSource.value)
+            })
+            video.value?.addEventListener('pause', () => {
+                isVideoPause.value = true
+            })
+            video.value?.addEventListener('play', () => {
+                isVideoPause.value = false
             })
         } else {
             alert("Select a file to upload")
@@ -65,9 +84,9 @@ const onVideoPicked = () => {
         accept="video/*"
         @change="onVideoPicked"
     />
-    <div v-show="videoSource" class="videoContainer">
+    <div class="videoContainer">
         <video 
-            v-show="!isMobileVersion"
+            v-show="videoSource && !isMobileVersion"
             id="video" 
             ref="video"
             :width="height" 
@@ -78,12 +97,26 @@ const onVideoPicked = () => {
             muted
         >
         </video>
-        <div class="pickNewVideo" >
+        <div class="pickNewVideo" v-show="videoSource">
             <button @click="chooseNewVideo">
                 {{ VIDEO_UPLOADER.newVideo }}
             </button>
-            <button @click="restartVideo" class="restart">
-                <IconArrowRepeat class="iconArrowRepeat"/>
+            <button @click="restartVideo" class="control restart">
+                <IconArrowRepeat class="icon"/>
+            </button>
+            <button 
+                @click="pauseVideo" 
+                class="control pause"
+                v-show="!isVideoPause"
+            >
+                <IconPause class="icon"/>
+            </button>
+            <button 
+                @click="playVideo" 
+                class="control play"
+                v-show="isVideoPause"
+            >
+                <IconPlay class="icon"/>
             </button>
         </div>
     </div>
@@ -97,7 +130,7 @@ const onVideoPicked = () => {
         <p>{{ VIDEO_UPLOADER.lowQualityPreference }}</p> 
     </button>
     <button 
-        @click="loadTestVideo" 
+        @click="loadVideo" 
         class="tryOut" 
         v-show="!videoSource" 
         :title="VIDEO_UPLOADER.creditTitle">
@@ -158,17 +191,17 @@ video {
     transform: scale(1.1);
 }
 
-.restart {
+.control  {
     background-color: transparent;
     box-shadow: none;
 }
 
-.restart:hover {
+.control:hover {
     background-color: transparent;
     transform: scale(1.1);
 }
 
-.restart .iconArrowRepeat {
+.control .icon {
     vertical-align: middle;
 }
 
@@ -177,5 +210,18 @@ video {
     top: -2em;
     left: 1em;
 }
+
+@media (max-width: 760px) {
+    .pickNewVideo {
+        visibility: visible;
+        position: relative;
+        margin-bottom: 3em;
+    }
+
+/*     .videoContainer {
+        flex-direction: row;
+    } */
+}
+
 
 </style>
