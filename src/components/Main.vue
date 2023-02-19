@@ -1,28 +1,15 @@
 <script setup lang="ts">
 
 import { rgb2hsl , hex2rgb, color2string, string2color, useBreakpoints, useIsMobileVersion } from '../utils.js'
-import SlidersPicker from './elements/SlidersPicker.vue'
-import ColorPicker from './elements/ColorPicker.vue'
-import { ref } from 'vue'
-import IconCircle from './icons/IconCircle.vue'
-import IconLines from './icons/IconLines.vue'
-import IconRose from './icons/IconRose.vue'
-import { SETTINGS } from '../assets/texts'
+import { ref, reactive } from 'vue'
 import InformationModal from './elements/InformationModal.vue'
 import Title from './elements/Title.vue'
 import VideoProcess from './elements/VideoProcess.vue'
+import Settings from './elements/Settings.vue'
 
 type ColorDistribution = {
         [keys: string]: number
     }
-
-type PickerParams = {
-                id : number,
-                label: string,
-                min: number,
-                max: number,
-                value: number
-            }[]
 
 const isMobileVersion: boolean = useIsMobileVersion()
 
@@ -41,67 +28,28 @@ const isVideoSource = ref<boolean>(false)
 
 const colorResultsArray = ref<string[][]>([])
 
-const rgbColor = ref([DEFAULT_RGB_COLOR])
-const radius = ref([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
-const angleRose = ref([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
-const angleLines = ref([DEFAULT_ANGLE])
-const isSorted = ref(DEFAULT_IS_SORTED)
-const colorThreshold = ref([DEFAULT_COLOR_THRESHOLD])
+const rgbColor = ref<string[]>([DEFAULT_RGB_COLOR])
+const colorThreshold = ref<number[]>([DEFAULT_COLOR_THRESHOLD])
+const circleAttributes = ref<number[]>([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
+const roseAttributes = ref<number[]>([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
+const linesAttributes = ref<number[]>([DEFAULT_ANGLE])
+const isSorted = ref<boolean>(DEFAULT_IS_SORTED)
 
-const radiusPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: SETTINGS.label.outsideRadius,
-                        min: 0,
-                        max: canvasResponsiveSize.value / 2,
-                        value: DEFAULT_OUT_RADIUS,
-                    },
-                    {
-                        id: 1,
-                        label: SETTINGS.label.insideRadius,
-                        min: 1,
-                        max: canvasResponsiveSize.value / 2,
-                        value: DEFAULT_IN_RADIUS,
-                    }
-                ]
-
-const anglePickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: SETTINGS.label.linesAngle,
-                        min: 0,
-                        max: 360,
-                        value: DEFAULT_ANGLE,
-                    }
-                ]
-
-const angleRadiusPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: SETTINGS.label.roseAngle,
-                        min: 0,
-                        max: 360,
-                        value: DEFAULT_ANGLE_ROSE,
-                    }
-                    ,
-                    {
-                        id: 1,
-                        label: SETTINGS.label.roseRadius,
-                        min: 1,
-                        max: canvasResponsiveSize.value / 2,
-                        value: DEFAULT_OUT_RADIUS,
-                    }
-                ]
-
-const colorThresholdPickerParams: PickerParams = [
-                    {
-                        id: 0,
-                        label: SETTINGS.label.colorThreshold,
-                        min: 0,
-                        max: 100,
-                        value: DEFAULT_COLOR_THRESHOLD,
-                    }
-                ]
+const params = reactive({
+    general: {
+        colorThreshold: colorThreshold,
+        rgbColor: rgbColor
+    },
+    circle: {
+        radius: circleAttributes
+    },
+    lines: {
+        angle: linesAttributes
+    },
+    rose: {
+        angle: roseAttributes
+    }
+})
 
 const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     let numberFrameProcessed: number = 0
@@ -177,62 +125,18 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
         class="container"
     >
         <Title/>
-        <div class="settings" v-show="!isMobileVersion/*  || isVideoSource */">
-            <div>
-                <SlidersPicker 
-                    v-model="colorThreshold"
-                    :name="SETTINGS.label.colorThreshold"
-                    :params="colorThresholdPickerParams"
-                    >
-                <template #icon>
-                   {{ SETTINGS.generalTitle }}
-                </template>
-            </SlidersPicker>
-                <ColorPicker
-                    v-model="rgbColor"
-                    :name="SETTINGS.label.backgroundColor"
-                    :label="SETTINGS.label.backgroundColor"
-                    :value="DEFAULT_RGB_COLOR"
-                />                
-            </div>
-            <div class="separationBorder main"></div>
-            <SlidersPicker 
-                v-model="radius"
-                name="Circle"
-                :params="radiusPickerParams"
-            >
-                <template #icon>
-                    <IconCircle/>
-                </template>
-            </SlidersPicker>
-            <div class="separationBorder"></div>
-            <SlidersPicker 
-                v-model="angleLines"
-                name="Lines"
-                :params="anglePickerParams"
-            >
-                <template #icon>
-                    <IconLines/>
-                </template>
-            </SlidersPicker>
-            <div class="separationBorder"></div>
-            <SlidersPicker 
-                v-model="angleRose"
-                name="Rose"
-                :params="angleRadiusPickerParams"
-            >
-                <template #icon>
-                    <IconRose/>
-                </template>
-            </SlidersPicker>
-        </div>
+        <Settings
+            v-show="!isMobileVersion || isVideoSource"
+            :canvasSize="canvasResponsiveSize"
+            :attributes="params"
+        />
         <VideoProcess
             :innnerHeight="canvasResponsiveSize"
             :videoProcessing="videoProcessing"
             :colors="colorResultsArray"
-            :circleValues="radius"
-            :linesValues="angleLines"
-            :roseValues="angleRose"
+            :circleValues="circleAttributes"
+            :linesValues="linesAttributes"
+            :roseValues="roseAttributes"
             :isColorsSorted="isSorted"
             :backgroundColor="hex2rgb(rgbColor[0])"
         />
@@ -250,33 +154,6 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     text-align: center;
     height: 100vh;
     padding-bottom: 1em;
-}
-
-.settings {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0.1em;
-    border: 1px solid rgba(83, 83, 83, 0.186);
-    border-radius: 0.5em;
-    margin-bottom: 2em;
-    margin-top: 1em;
-    padding: 1em;
-    background-color: rgba(236, 235, 228, 0.6);
-    flex-basis: 25%;
-}
-
-.separationBorder {
-    margin: 1em;
-    border: 1px dashed rgb(155, 136, 136);
-}
-
-.separationBorder.main {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: 1.5em;
-    margin-right: 1.5em;
-    border: 1px solid rgb(155, 136, 136);
 }
 
 </style>
