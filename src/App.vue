@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import Main from './components/Main.vue'
+import Provider from './components/Provider.vue'
 </script>
 
 <template>
-  <main>
-    <Main />
-  </main>
+  <Provider>
+    <template #default>
+      <main>
+        <Main />
+      </main>
+    </template>
+  </Provider>
 </template>
 
 <style scoped>
