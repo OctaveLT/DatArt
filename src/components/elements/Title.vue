@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { TITLE } from '../../assets/texts'
-
 </script>
 
 <template>
@@ -8,14 +7,13 @@ import { TITLE } from '../../assets/texts'
         <h1>{{ TITLE }}</h1>
         <img src="/datArtLogo.svg" class="logo">
     </div>
-
 </template>
 
 <style scoped>
 
 .title {
     position: fixed;
-    top: 0.8em;
+    top: 0;
     left: 1em;
     color: #CC998D;
     display: flex;
