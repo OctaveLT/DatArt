@@ -125,7 +125,7 @@ const showSlider = () => {
     color: #CC998D;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
         .videoProcess {
             flex-direction: column-reverse;
         }

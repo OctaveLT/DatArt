@@ -1,6 +1,6 @@
 import { computed, onMounted, onUnmounted, reactive } from "vue"
 
-const MOBILE_MAX_SIZE = 760
+const MOBILE_MAX_SIZE = 900
 
 export const hex2rgb = (hex) => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)

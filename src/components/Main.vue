@@ -157,7 +157,7 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     padding-bottom: 1em;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     .container {
         margin: 0;
         padding: 0;

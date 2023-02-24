@@ -66,7 +66,7 @@ const handleInput = (index: number, e: Event, ) => {
     width: 100%;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     .colorPicker > .title > div {
         font-size: small;
     }

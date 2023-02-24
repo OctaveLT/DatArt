@@ -77,7 +77,7 @@ const handleInput = (index: number, e: Event, ) => {
     outline: none;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     .sliderPicker > .title {
         margin: 0;
     }

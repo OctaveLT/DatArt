@@ -133,7 +133,7 @@ const toggleShowInformation = () => {
     cursor: pointer;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
         .informationClickableIcon {
             top: 0.4em;
             width: 1.2em;

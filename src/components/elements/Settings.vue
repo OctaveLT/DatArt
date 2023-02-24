@@ -209,7 +209,7 @@ const colorThresholdPickerParams: pickerParams = [
     border: 1px solid rgb(155, 136, 136);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     .settings.mobile {
         display: flex;
         flex-direction: column-reverse;

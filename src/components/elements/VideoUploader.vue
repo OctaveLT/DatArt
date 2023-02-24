@@ -211,7 +211,7 @@ video {
     left: 1em;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     .pickNewVideo {
         visibility: visible;
         position: relative;

@@ -111,7 +111,7 @@ canvas {
     visibility: visible;  
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     canvas {
         margin-bottom: 0.6em;
     }
