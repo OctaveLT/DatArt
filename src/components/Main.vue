@@ -19,7 +19,7 @@ const DEFAULT_ANGLE: number = 0
 const DEFAULT_COLOR_THRESHOLD: number = 25
 const DEFAULT_IS_SORTED: boolean = false
 const DEFAULT_RGB_COLOR: string = '#ffffff'
-const CANVAS_WIDTH_RATIO: number = isMobileVersion ? 0.9 : 0.21
+const CANVAS_WIDTH_RATIO: number = isMobileVersion ? 0.7 : 0.21
 const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
 const DEFAULT_OUT_RADIUS: number = canvasResponsiveSize.value * 0.45
 const DEFAULT_IN_RADIUS: number = canvasResponsiveSize.value * 0.25
@@ -121,10 +121,10 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
 </script>
 
 <template>
+    <Title/>
     <div
         class="container"
     >
-        <Title/>
         <Settings
             v-show="!isMobileVersion || isVideoSource"
             :canvasSize="canvasResponsiveSize"
@@ -154,6 +154,15 @@ const videoProcessing = (video: HTMLVideoElement, videoSource: string) => {
     text-align: center;
     height: 100vh;
     padding-bottom: 1em;
+}
+
+@media (max-width: 760px) {
+    .container {
+        margin: 0;
+        padding: 0;
+        padding-top: 3em;
+        flex-direction: column-reverse;
+    }
 }
 
 </style>
