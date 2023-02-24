@@ -1,5 +1,4 @@
 <script lang="ts">
-// We use symbols as a unique identifiers.
 export const UserSettingsStateSymbol = Symbol('User settings provider state identifier')
 export const UserSettingsUpdateSymbol = Symbol('User settings update provider identifier')
 </script>
@@ -12,14 +11,15 @@ import {
     toRefs,
 } from 'vue'
 
-const state = reactive({
+const state = reactive<{language: string, theme: string, sliderIndex: number}>({
     language: 'en',
     theme: 'light',  
-    sliderIndex: '0'
+    sliderIndex: 0
 });
 
-const update = (property: 'language' | 'theme' | 'sliderIndex', value: string) => {
-    state[property] = value;
+const update = (property: 'language' | 'theme' | 'sliderIndex', value: string | number) => {
+    if (property === 'sliderIndex') state[property] = value as number
+    else state[property] = value as string
 };
 
 provide(UserSettingsStateSymbol, toRefs(readonly(state)));
