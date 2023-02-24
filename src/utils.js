@@ -178,5 +178,8 @@ export const useBreakpoints = (ratio) => {
     return width
 }
 
-export const useIsMobileVersion = () => window.innerWidth <= MOBILE_MAX_SIZE
+export const useIsMobileVersion = () => {
+    alert('size '+window.innerWidth)
+    return window.innerWidth <= MOBILE_MAX_SIZE
+}
 //return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) //not working correclty
