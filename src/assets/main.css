@@ -38,6 +38,26 @@ button.main:hover {
   background-color: #1C68BF;
 }
 
+button.icon {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+button.icon:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+button.icon:active {
+  box-shadow: none;
+  border: 0;
+  transform: translateY(1px);
+}
+
+button.main:hover {
+  background-color: #1C68BF;
+}
+
 input {
   cursor: pointer;
 }
