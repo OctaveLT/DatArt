@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 import { UserSettingsStateSymbol, UserSettingsUpdateSymbol } from '../Provider.vue'
+import { useSwipe } from '../../assets/swipe'
 
 const props = defineProps<{
     withArrows: boolean
@@ -14,12 +15,17 @@ const MAX = 2
 
 const nextSlide = () => {
     updateIndex(sliderIndex.value >= MAX ? 0 : sliderIndex.value + 1)
-    console.log(sliderIndex.value)
 }
 
 const previousSlide = () => {
     updateIndex(sliderIndex.value <= 0 ? MAX : sliderIndex.value - 1)
 }
+
+const { onSwipeLeft, onSwipeRight } = useSwipe(document.getElementsByTagName('canvas')[0])
+
+onSwipeLeft(previousSlide)
+onSwipeRight(nextSlide)
+
 
 </script>
 
