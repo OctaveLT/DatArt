@@ -135,12 +135,13 @@ const toggleShowInformation = () => {
 
 @media (max-width: 760px) {
         .informationClickableIcon {
+            top: 0.4em;
             width: 1.2em;
         }
 
         .beta {
             right: 1em;
-            top: 2.6em;
+            top: 2em;
             font-size: small;
         }
 
