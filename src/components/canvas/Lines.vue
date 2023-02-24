@@ -13,20 +13,21 @@ const props = defineProps<{
   backgroundColor: number[],
   height: number | 320
   width: number | 320,
-  scale: number | 2,
   isColorsSorted: boolean,
-  angle: number
+  angle: number,
+  squareSize: number,
 }>()
 
-
 const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
+
+    const padding = (props.width - props.squareSize) * 0.5
 
     const context = canvasRef && canvasRef.getContext('2d') as CanvasRenderingContext2D
 
     context.clearRect(0, 0, props.width, props.height)
  
     const numberColors: number = props.colors.length
-    const step: number = props.height / numberColors
+    const step: number = (props.height - 2 * padding) / numberColors
 
     const circleXCenter: number = props.width / 2
     const circleYCenter: number = props.height / 2 
@@ -81,23 +82,16 @@ const drawLines = (colors: string[][], canvasRef: HTMLCanvasElement) => {
 
         context.strokeStyle = `rgb(${color.toString()})`
 
-        context.lineWidth = (props.isColorsSorted && sortedColorsResult)
+/*         context.lineWidth = (props.isColorsSorted && sortedColorsResult)
             ? step * 1.1//sortedColorsResult[1][color.toString()]//step * 1.1 //resultsDistribution[color[0]] 
-            : step * 1.1
+            : step * 1.1 */
 
-        //console.log(color, sortedColorsResult[1][color.toString()])
-        
-        //context.lineWidth = step * 1.1
+        context.lineWidth = step * 1.1
 
-/*         x1 = 0
-        y1 = (k - 0.5) * step
-        x2 = props.width
-        y2 = (k - 0.5) * step */
-
-        x1 = 0 - circleXCenter
-        y1 = (k - 0.5) * step - circleYCenter
-        x2 = props.width - circleXCenter
-        y2 = (k - 0.5) * step - circleYCenter
+        x1 = 0 - circleXCenter + padding
+        y1 = (k - 0.5) * step - circleYCenter + padding
+        x2 = props.width - circleXCenter - padding
+        y2 = (k - 0.5) * step - circleYCenter + padding
 
         x1Rot = rotateX(x1, y1)
         y1Rot = rotateY(x1, y1)

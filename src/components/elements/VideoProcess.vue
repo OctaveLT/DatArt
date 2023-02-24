@@ -49,9 +49,9 @@ const showSlider = () => {
             :backgroundColor="backgroundColor"
             :height="innnerHeight"
             :width="innnerHeight"
-            :scale="2"
             :isColorsSorted="isColorsSorted"
             :angle="linesValues[0]"
+            :square-size="linesValues[1]"
         />
         <Rose 
             :colors="colors"
@@ -88,9 +88,9 @@ const showSlider = () => {
                     :backgroundColor="backgroundColor"
                     :height="innnerHeight"
                     :width="innnerHeight"
-                    :scale="2"
                     :isColorsSorted="isColorsSorted"
                     :angle="linesValues[0]"
+                    :square-size="linesValues[1]"
                 />
             </template>
             <template #2>

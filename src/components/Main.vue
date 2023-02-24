@@ -23,6 +23,7 @@ const CANVAS_WIDTH_RATIO: number = isMobileVersion ? 0.7 : 0.21
 const canvasResponsiveSize = useBreakpoints(CANVAS_WIDTH_RATIO)
 const DEFAULT_OUT_RADIUS: number = canvasResponsiveSize.value * 0.45
 const DEFAULT_IN_RADIUS: number = canvasResponsiveSize.value * 0.25
+const DEFAULT_SQUARE_SIZE: number = canvasResponsiveSize.value * 0.9
 
 const isVideoSource = ref<boolean>(false)
 
@@ -32,7 +33,7 @@ const rgbColor = ref<string[]>([DEFAULT_RGB_COLOR])
 const colorThreshold = ref<number[]>([DEFAULT_COLOR_THRESHOLD])
 const circleAttributes = ref<number[]>([DEFAULT_OUT_RADIUS, DEFAULT_IN_RADIUS])
 const roseAttributes = ref<number[]>([DEFAULT_ANGLE_ROSE, DEFAULT_OUT_RADIUS])
-const linesAttributes = ref<number[]>([DEFAULT_ANGLE])
+const linesAttributes = ref<number[]>([DEFAULT_ANGLE, DEFAULT_SQUARE_SIZE])
 const isSorted = ref<boolean>(DEFAULT_IS_SORTED)
 
 const params = reactive({

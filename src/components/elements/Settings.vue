@@ -17,6 +17,7 @@ const props = defineProps<{
 
 const DEFAULT_OUT_RADIUS: number = props.canvasSize * 0.45
 const DEFAULT_IN_RADIUS: number = props.canvasSize * 0.25
+const DEFAULT_SQUARE_SIZE: number = props.canvasSize * 0.9
 
 const isMobileVersion = useIsMobileVersion()
 
@@ -44,6 +45,13 @@ const anglePickerParams: pickerParams = [
                         min: 0,
                         max: 360,
                         value: DEFAULT_ANGLE,
+                    },
+                    {
+                        id: 1,
+                        label: SETTINGS.label.linesSquareSize,
+                        min: 1,
+                        max: props.canvasSize,
+                        value: DEFAULT_SQUARE_SIZE,
                     }
                 ]
 
@@ -54,8 +62,7 @@ const angleRadiusPickerParams: pickerParams = [
                         min: 0,
                         max: 360,
                         value: DEFAULT_ANGLE_ROSE,
-                    }
-                    ,
+                    },
                     {
                         id: 1,
                         label: SETTINGS.label.roseRadius,

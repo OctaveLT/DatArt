@@ -27,6 +27,7 @@ export const SETTINGS = {
         insideRadius: 'In radius',
         outsideRadius: 'Out radius',
         linesAngle: 'Angle',
+        linesSquareSize: 'Size',
         roseAngle: 'Angle',
         roseRadius: 'Radius'
     }
