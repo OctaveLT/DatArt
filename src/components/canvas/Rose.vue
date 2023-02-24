@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import IconLines from '../icons/IconLines.vue';
 import IconRose from '../icons/IconRose.vue';
 import CanvasContainer from './CanvasContainer.vue';
 
@@ -73,7 +72,3 @@ const drawRose = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         </template>
     </CanvasContainer>
 </template>
-
-<style>
-
-</style>

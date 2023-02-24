@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
-import { ref, watch, reactive } from 'vue'
 import IconCircle from '../icons/IconCircle.vue';
-import IconLines from '../icons/IconLines.vue';
 import CanvasContainer from './CanvasContainer.vue';
 
 const props = defineProps<{
@@ -67,7 +65,3 @@ const drawCircle = (colors: string[][], canvasRef: HTMLCanvasElement) => {
         </template>
     </CanvasContainer>
 </template>
-
-<style>
-
-</style>
