@@ -70,6 +70,7 @@ const showSlider = () => {
         />
         <Slider
             v-show="isVideoUploaded"
+            :with-arrows="false"
         >
             <template #0>
                 <Circle 
@@ -126,8 +127,7 @@ const showSlider = () => {
 
 @media (max-width: 760px) {
         .videoProcess {
-            margin-top: 3em;
-            flex-direction: column;
+            flex-direction: column-reverse;
         }
     }
 </style>

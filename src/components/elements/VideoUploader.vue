@@ -215,12 +215,8 @@ video {
     .pickNewVideo {
         visibility: visible;
         position: relative;
-        margin-bottom: 3em;
+        bottom: 0;
     }
-
-/*     .videoContainer {
-        flex-direction: row;
-    } */
 }
 
 
