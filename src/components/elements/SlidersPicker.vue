@@ -77,7 +77,18 @@ const handleInput = (index: number, e: Event, ) => {
     outline: none;
 }
 
+@media (max-width: 760px) {
+    .sliderPicker > .title {
+        margin: 0;
+    }
 
+    .sliderPicker > .inputsContainer > .label {
+        font-size: small;
+    }
 
+    .sliderPicker > .title > div {
+        font-size: small;
+    }
+}
 
 </style>
