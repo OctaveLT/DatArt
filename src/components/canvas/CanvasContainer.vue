@@ -1,7 +1,8 @@
 <script setup lang="ts">
 
-import { ref, watch } from 'vue'
-import { CANVAS_CONTAINER } from '@/assets/texts';
+import { onMounted, ref, watch } from 'vue'
+import { useIsMobileVersion } from '@/utils';
+import IconDownload from '../icons/IconDownload.vue';
 
 const props = defineProps<{
     drawing: (colors: string[][], canvasRef: HTMLCanvasElement) => void,
@@ -14,6 +15,12 @@ const props = defineProps<{
 
 const canvas = ref()
 
+const isMobileVersion = useIsMobileVersion()
+
+onMounted(() => {
+    props.colors.length > 0 && props.drawing(props.colors, canvas.value)
+})
+
 watch(props.colors, (_, second) => {
     if (props.colors.length > 0) props.drawing(second, canvas.value)
     else {
@@ -23,7 +30,7 @@ watch(props.colors, (_, second) => {
 })
 
 watch(() => props.updateParameters, () => {
-    if (props.colors.length > 0) props.drawing(props.colors, canvas.value)
+    props.colors.length > 0 && props.drawing(props.colors, canvas.value)
 })
 
 const downloadAsImg = () => {
@@ -48,8 +55,8 @@ const downloadAsImg = () => {
 
 <template>
     <div class="canvasContainer">
-        <div class="slotWrapper">
-            <slot class="slot" name="icon"/>
+        <div class="slotWrapper" v-if="!isMobileVersion">
+            <slot name="icon"/>
         </div>
         <canvas 
             ref="canvas" 
@@ -59,11 +66,12 @@ const downloadAsImg = () => {
                 'background-color': `rgb(${backgroundColor.toString()})`,
             }"
         ></canvas>
-        <div>
+        <div class="buttonContainer">
             <button
+                class="icon"
                 @click="downloadAsImg"
             >
-                {{ CANVAS_CONTAINER.downloadBUtton }}
+                <IconDownload/>
             </button>
         </div>
     </div>
@@ -100,8 +108,25 @@ canvas {
 }
 
 .canvasContainer:hover button {
-    visibility: visible;
-    
+    visibility: visible;  
+}
+
+@media (max-width: 760px) {
+    canvas {
+        margin-bottom: 0.6em;
+    }
+
+    .canvasContainer button {
+        visibility: visible;  
+        bottom: 0;
+        right: 1em;
+        background-color: rgba(245, 245, 245, 0.278) !important; 
+        border-radius: 0;
+    }
+
+    .canvasContainer .buttonContainer {
+        justify-content: end;
+    }
 }
 
 </style>
